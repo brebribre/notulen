@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { useAudioFiles } from '@/hooks/useAudioFiles'
 import { useMeetings } from '@/hooks/useMeetings'
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
-import { Loader2, UploadCloud } from 'lucide-vue-next'
+import { Loader2, UploadCloud, AlertCircle } from 'lucide-vue-next'
 import { 
   Tabs, 
   TabsContent, 
@@ -17,7 +17,7 @@ import {
 const route = useRoute()
 const router = useRouter()
 const { uploadAudioFile, loading: uploadLoading } = useAudioFiles()
-const { fetchMeeting, updateMeeting, loading: meetingLoading } = useMeetings()
+const { fetchMeeting, updateMeeting, fetchAudioByMeetingId, loading: meetingLoading } = useMeetings()
 
 const groupId = route.params.groupId as string
 const meetingId = computed(() => route.query.meetingId as string | undefined)
@@ -36,6 +36,8 @@ const showSaveDialog = ref(false)
 const meetingName = ref('')
 const meetingDate = ref(new Date().toISOString())
 const meeting = ref<any>(null)
+const existingAudioFiles = ref<any[]>([])
+const hasExistingAudio = computed(() => existingAudioFiles.value.length > 0)
 
 // File upload state
 const selectedFile = ref<File | null>(null)
@@ -73,11 +75,21 @@ const setupRecorder = async () => {
 const loadMeetingData = async () => {
   if (meetingId.value) {
     try {
+      // Fetch the meeting data
       const meetingData = await fetchMeeting(meetingId.value)
       if (meetingData) {
         meeting.value = meetingData
         meetingName.value = meetingData.name
         meetingDate.value = meetingData.meeting_datetime
+      }
+      
+      // Fetch any audio files associated with this meeting
+      const audioData = await fetchAudioByMeetingId(meetingId.value)
+      existingAudioFiles.value = audioData || []
+      
+      // If there's already an audio file, show a warning
+      if (hasExistingAudio.value) {
+        errorMessage.value = 'This meeting already has an audio recording. You cannot add another one.'
       }
     } catch (err) {
       console.error('Error loading meeting data:', err)
@@ -88,7 +100,7 @@ const loadMeetingData = async () => {
 
 // Start recording
 const startRecording = () => {
-  if (!mediaRecorder.value) return
+  if (!mediaRecorder.value || hasExistingAudio.value) return
   
   audioChunks.value = []
   audioUrl.value = null
@@ -131,6 +143,8 @@ const formatTime = (seconds: number) => {
 
 // Handle file selection
 const handleFileChange = (event: Event) => {
+  if (hasExistingAudio.value) return
+  
   const input = event.target as HTMLInputElement
   if (input.files && input.files.length > 0) {
     selectedFile.value = input.files[0]
@@ -142,7 +156,7 @@ const handleFileChange = (event: Event) => {
 
 // Trigger file input click
 const triggerFileInput = () => {
-  if (fileInputRef.value) {
+  if (fileInputRef.value && !hasExistingAudio.value) {
     fileInputRef.value.click()
   }
 }
@@ -172,14 +186,17 @@ const openSaveDialog = () => {
 
 // Check if save is possible
 const canSave = computed(() => {
+  if (hasExistingAudio.value) return false
   return (activeTab.value === 'record' && audioUrl.value) || 
          (activeTab.value === 'upload' && selectedFile.value)
 })
 
 // Save audio directly without showing the dialog
 const saveAudio = async () => {
-  if (!canSave.value || !meetingId.value) {
-    errorMessage.value = "Cannot save: missing audio or meeting ID";
+  if (!canSave.value || !meetingId.value || hasExistingAudio.value) {
+    errorMessage.value = hasExistingAudio.value 
+      ? "Cannot save: This meeting already has an audio recording." 
+      : "Cannot save: missing audio or meeting ID";
     return;
   }
   
@@ -268,118 +285,146 @@ onUnmounted(() => {
     </div>
     
     <!-- Error message -->
-    <div v-if="errorMessage" class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg mb-6">
-      {{ errorMessage }}
+    <div v-if="errorMessage" class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg mb-6 flex items-center">
+      <AlertCircle class="h-5 w-5 mr-2 flex-shrink-0" />
+      <span>{{ errorMessage }}</span>
     </div>
     
-    <!-- Tabs for recording vs uploading -->
-    <Tabs v-model="activeTab" class="w-full max-w-2xl mx-auto" @update:modelValue="cleanUp">
-      <TabsList class="grid w-full grid-cols-2 mb-6">
-        <TabsTrigger value="record" class="flex items-center gap-2">
-          Record New
-        </TabsTrigger>
-        <TabsTrigger value="upload" class="flex items-center gap-2">
-          Upload File
-        </TabsTrigger>
-      </TabsList>
-      
-      <!-- Recording Tab -->
-      <TabsContent value="record" class="py-4">
-        <div class="flex flex-col items-center space-y-6">
-          <!-- Recording visualization/status -->
-          <div class="w-full max-w-md h-24 bg-muted rounded-lg flex items-center justify-center">
-            <div v-if="recordingStatus === 'recording'" class="text-destructive flex items-center gap-2">
-              <span class="animate-pulse h-3 w-3 bg-destructive rounded-full"></span>
-              Recording {{ formatTime(recordingDuration) }}
-            </div>
-            <div v-else-if="audioUrl" class="w-full px-4">
-              <audio :src="audioUrl" controls class="w-full"></audio>
-            </div>
-            <div v-else class="text-muted-foreground">
-              Ready to record
-            </div>
-          </div>
-          
-          <!-- Recording controls -->
-          <div class="flex gap-4">
-            <Tooltip>
-              <TooltipTrigger>
-                <Button 
-                  v-if="recordingStatus === 'inactive'" 
-                  @click="startRecording" 
-                  class="h-16 w-16 rounded-full"
-                  variant="default"
-                  :disabled="!mediaRecorder">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                    <circle cx="10" cy="10" r="6" />
-                  </svg>
-                </Button>
-                <Button 
-                  v-else 
-                  @click="stopRecording" 
-                  class="h-16 w-16 rounded-full"
-                  variant="destructive">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                    <rect x="6" y="6" width="8" height="8" />
-                  </svg>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{{ recordingStatus === 'inactive' ? 'Start Recording' : 'Stop Recording' }}</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-        </div>
-      </TabsContent>
-      
-      <!-- Upload Tab -->
-      <TabsContent value="upload" class="py-4">
-        <div class="flex flex-col items-center space-y-6">
-          <!-- File upload area -->
-          <div 
-            @click="triggerFileInput"
-            class="w-full max-w-md h-40 bg-muted rounded-lg flex flex-col items-center justify-center p-6 border-2 border-dashed border-muted-foreground/20 cursor-pointer hover:bg-muted/80 transition-colors"
-          >
-            <input 
-              ref="fileInputRef"
-              type="file" 
-              accept="audio/*" 
-              class="hidden" 
-              @change="handleFileChange"
-            />
-            
-            <UploadCloud class="h-12 w-12 text-muted-foreground mb-3" />
-            
-            <div v-if="selectedFile" class="text-center">
-              <p class="text-foreground font-medium">{{ selectedFile.name }}</p>
-              <p class="text-sm text-muted-foreground">
-                {{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB
-              </p>
-            </div>
-            <div v-else class="text-center">
-              <p class="text-foreground font-medium">Click to select an audio file</p>
-              <p class="text-sm text-muted-foreground">Or drag and drop a file here</p>
-              <p class="text-xs text-muted-foreground mt-2">Supports: MP3, WAV, M4A, etc.</p>
-            </div>
-          </div>
-        </div>
-      </TabsContent>
-    </Tabs>
+    <!-- Existing audio warning -->
+    <div v-if="hasExistingAudio" class="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-6 rounded-lg mb-6 text-center">
+      <h3 class="text-lg font-semibold mb-2">This meeting already has an audio recording</h3>
+      <p class="mb-4">You cannot add another audio recording to this meeting.</p>
+      <Button variant="outline" @click="goBack">Go Back</Button>
+    </div>
     
-    <!-- Save button -->
-    <div class="flex justify-center mt-8">
-      <Button 
-        @click="saveAudio" 
-        :disabled="loading || isSaving || !canSave" 
-        variant="default" 
-        size="lg"
-        class="w-full max-w-md">
-        <span v-if="isSaving">
-          <Loader2 class="mr-2 h-4 w-4 inline animate-spin" />
-          Saving...
-        </span>
-        <span v-else>Save Audio</span>
-      </Button>
+    <!-- Main content -->
+    <div v-if="!hasExistingAudio">
+      <!-- Tabs for recording vs uploading -->
+      <Tabs v-model="activeTab" class="w-full max-w-2xl mx-auto" @update:modelValue="cleanUp">
+        <TabsList class="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="record" class="flex items-center gap-2">
+            Record New
+          </TabsTrigger>
+          <TabsTrigger value="upload" class="flex items-center gap-2">
+            Upload File
+          </TabsTrigger>
+        </TabsList>
+        
+        <!-- Recording Tab -->
+        <TabsContent value="record" class="py-4">
+          <div class="flex flex-col items-center space-y-6">
+            <!-- Recording visualization/status -->
+            <div class="w-full max-w-md h-24 bg-muted rounded-lg flex items-center justify-center">
+              <div v-if="recordingStatus === 'recording'" class="text-destructive flex items-center gap-2">
+                <span class="animate-pulse h-3 w-3 bg-destructive rounded-full"></span>
+                Recording {{ formatTime(recordingDuration) }}
+              </div>
+              <div v-else-if="audioUrl" class="w-full px-4">
+                <audio :src="audioUrl" controls class="w-full"></audio>
+              </div>
+              <div v-else class="text-muted-foreground">
+                Ready to record
+              </div>
+            </div>
+            
+            <!-- Recording controls -->
+            <div class="flex gap-4">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button 
+                    v-if="recordingStatus === 'inactive'" 
+                    @click="startRecording" 
+                    class="h-16 w-16 rounded-full"
+                    variant="default"
+                    :disabled="!mediaRecorder || hasExistingAudio">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <circle cx="10" cy="10" r="6" />
+                    </svg>
+                  </Button>
+                  <Button 
+                    v-else 
+                    @click="stopRecording" 
+                    class="h-16 w-16 rounded-full"
+                    variant="destructive">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <rect x="6" y="6" width="8" height="8" />
+                    </svg>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p v-if="hasExistingAudio">Recording disabled: This meeting already has an audio file</p>
+                  <p v-else>{{ recordingStatus === 'inactive' ? 'Start Recording' : 'Stop Recording' }}</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <!-- Upload Tab -->
+        <TabsContent value="upload" class="py-4">
+          <div class="flex flex-col items-center space-y-6">
+            <!-- File upload area -->
+            <div 
+              @click="triggerFileInput"
+              class="w-full max-w-md h-40 bg-muted rounded-lg flex flex-col items-center justify-center p-6 border-2 border-dashed border-muted-foreground/20 cursor-pointer hover:bg-muted/80 transition-colors"
+              :class="{ 'opacity-50 cursor-not-allowed': hasExistingAudio }"
+            >
+              <Tooltip>
+                <TooltipTrigger class="w-full h-full flex flex-col items-center justify-center">
+                  <input 
+                    ref="fileInputRef"
+                    type="file" 
+                    accept="audio/*" 
+                    class="hidden" 
+                    @change="handleFileChange"
+                    :disabled="hasExistingAudio"
+                  />
+                  
+                  <UploadCloud class="h-12 w-12 text-muted-foreground mb-3" />
+                  
+                  <div v-if="selectedFile" class="text-center">
+                    <p class="text-foreground font-medium">{{ selectedFile.name }}</p>
+                    <p class="text-sm text-muted-foreground">
+                      {{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB
+                    </p>
+                  </div>
+                  <div v-else class="text-center">
+                    <p class="text-foreground font-medium">Click to select an audio file</p>
+                    <p class="text-sm text-muted-foreground">Or drag and drop a file here</p>
+                    <p class="text-xs text-muted-foreground mt-2">Supports: MP3, WAV, M4A, etc.</p>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent v-if="hasExistingAudio">
+                  <p>Upload disabled: This meeting already has an audio file</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+      
+      <!-- Save button -->
+      <div class="flex justify-center mt-8">
+        <Tooltip>
+          <TooltipTrigger class="w-full max-w-md">
+            <Button 
+              @click="saveAudio" 
+              :disabled="loading || isSaving || !canSave || hasExistingAudio" 
+              variant="default" 
+              size="lg"
+              class="w-full">
+              <span v-if="isSaving">
+                <Loader2 class="mr-2 h-4 w-4 inline animate-spin" />
+                Saving...
+              </span>
+              <span v-else>Save Audio</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent v-if="hasExistingAudio">
+            <p>Save disabled: This meeting already has an audio file</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   </div>
 </template>

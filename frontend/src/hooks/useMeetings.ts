@@ -121,8 +121,10 @@ export function useMeetings() {
   }
 
   // Get a specific meeting by ID
-  const fetchMeeting = async (meetingId: string) => {
-    loading.value = true
+  const fetchMeeting = async (meetingId: string, showLoading: boolean = true) => {
+    if (showLoading) {
+      loading.value = true
+    }
     error.value = null
     
     try {
@@ -139,7 +141,9 @@ export function useMeetings() {
       error.value = err.message || 'Failed to fetch meeting'
       return null
     } finally {
-      loading.value = false
+      if (showLoading) {
+        loading.value = false
+      }
     }
   }
 
@@ -238,6 +242,48 @@ export function useMeetings() {
     }
   }
 
+  // Clear transcript and summary for a meeting
+  const clearMeetingTranscriptAndSummary = async (meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      // Update meeting with null transcript and summary
+      const updateData: MeetingUpdate = {
+        transcript: "",
+        summary: {}
+      }
+      
+      const updatedMeeting = await apiRequest<Meeting>(
+        `${API_URL}/meetings/${meetingId}`, 
+        'PUT', 
+        updateData, 
+        { user_id: userId.value }
+      )
+      
+      // Update local state
+      if (currentMeeting.value && currentMeeting.value.id === meetingId) {
+        currentMeeting.value = updatedMeeting
+      }
+      
+      // Update the meetings list if this meeting is in the current list
+      const meetingIndex = meetings.value.findIndex(m => m.id === meetingId)
+      if (meetingIndex !== -1) {
+        meetings.value[meetingIndex] = updatedMeeting
+        // Create a new array to trigger reactivity
+        meetings.value = [...meetings.value]
+      }
+      
+      return updatedMeeting
+    } catch (err: any) {
+      console.error('Error clearing meeting transcript and summary:', err)
+      error.value = err.message || 'Failed to clear meeting data'
+      return null
+    } finally {
+      loading.value = false
+    }
+  }
+
   // Get audio files for a specific meeting
   const getMeetingAudioFiles = async (meetingId: string) => {
     loading.value = true
@@ -258,8 +304,10 @@ export function useMeetings() {
   }
 
   // Get audio files for a meeting directly (alternative method)
-  const fetchAudioByMeetingId = async (meetingId: string) => {
-    loading.value = true
+  const fetchAudioByMeetingId = async (meetingId: string, showLoading: boolean = true) => {
+    if (showLoading) {
+      loading.value = true
+    }
     error.value = null
     
     try {
@@ -279,7 +327,9 @@ export function useMeetings() {
       error.value = err.message || 'Failed to fetch audio files for meeting'
       return []
     } finally {
-      loading.value = false
+      if (showLoading) {
+        loading.value = false
+      }
     }
   }
 
@@ -294,6 +344,7 @@ export function useMeetings() {
     createMeeting,
     updateMeeting,
     deleteMeeting,
+    clearMeetingTranscriptAndSummary,
     getMeetingAudioFiles,
     fetchAudioByMeetingId
   }

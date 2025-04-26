@@ -48,7 +48,7 @@ class TranscriptSummarizer:
         return len(self.encoder.encode(text))
 
     # ---- chunk transcript if necessary ----
-    def _chunk(self, transcript: str, target_tokens: int = 3500) -> list[str]:
+    def _chunk(self, transcript: str, target_tokens: int = 2500) -> list[str]:
         """Fast O(n) tokenizer-first chunker with overlap."""
         tokens = self.encoder.encode(transcript)                    # ① one token pass
         step   = target_tokens - self.chunk_overlap_chars

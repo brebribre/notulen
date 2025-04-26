@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 import uuid
 from datetime import datetime
 import traceback
+import httpx
 from controller.supabase.supabase_utils import SupabaseController
 from controller.marcel.speech_to_text import SpeechToText
 from controller.cede.openai_summary_async import AsyncTranscriptSummarizer
@@ -262,39 +263,23 @@ async def upload_audio_file(
                 pass
             raise HTTPException(status_code=500, detail="Failed to create audio file record")
         
-        # TODO: we now have the file content, we can process it into transcript and summary
-        transcript = speech_to_text.speech_to_text_from_bytes(file_content)
-        print(f"Transcript: {transcript}")
-        
-        # Process the audio file into transcript and summary
-        summary = await transcript_summarizer.summarize_async(transcript)
-        print(f"Summary: {summary}")
-        
-        # Update the meetings table's transcript and summary columns if meeting_id is provided
-        if meeting_id:
-            # Convert summary to appropriate format for storage
-            summary_json = {
-                "summary": summary.summary,
-                "action_items": summary.action_items,
-                "participants": summary.participants
-            }
-            
-            # Update the meeting record in Supabase
-            meeting_update = {
-                "transcript": transcript,
-                "summary": summary_json
-            }
-            
-            meeting_result = supabase.update(
-                "meetings",
-                meeting_update,
-                filters={"id": meeting_id}
-            )
-            
-            if not meeting_result:
-                print(f"Warning: Could not update meeting {meeting_id} with transcript and summary.")
-            else:
-                print(f"Successfully updated meeting {meeting_id} with transcript and summary.")
+        # Call the background worker to process the audio file
+        try:
+            file_id = result[0]["id"]
+            async with httpx.AsyncClient() as client:
+                # Call the worker endpoint to start background processing
+                worker_url = f"http://127.0.0.1:5000/audio-files/{file_id}/bytes"
+                worker_response = await client.get(worker_url)
+                
+                if worker_response.status_code != 202:
+                    print(f"Warning: Background worker returned status {worker_response.status_code}")
+                    print(f"Response: {worker_response.text}")
+                else:
+                    print(f"Successfully triggered background processing for file {file_id}")
+        except Exception as worker_error:
+            # Log the error but don't fail the upload
+            print(f"Warning: Could not call background worker: {str(worker_error)}")
+            print(traceback.format_exc())
 
         return result[0]
     except Exception as e:
