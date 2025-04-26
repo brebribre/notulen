@@ -1,7 +1,7 @@
 from typing import Dict, Any, List
 from .weather_tool import WeatherTool
 from .web_search_tool import WebSearchTool
-
+from .supabase_tool import SupabaseTool
 class Tools:
     """
     A class that stores and manages tool definitions for the OpenAI API.
@@ -10,29 +10,6 @@ class Tools:
     def __init__(self):
         # 1. add new tools here
         self.tools = [
-            {
-                "type": "function",
-                "name": "web_search",
-                "description": "Search the web for information",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "query": {
-                            "type": "string",
-                            "description": "The search query"
-                        },
-                        "max_results": {
-                            "type": "integer",
-                            "description": "The maximum number of results to return",
-                            "default": 3
-                        }
-                    },
-                    "required": [
-                        "query"
-                    ],
-                    "additionalProperties": False
-                }
-            },
             {
                 "type": "function",
                 "name": "get_weather",
@@ -50,11 +27,38 @@ class Tools:
                     ],
                     "additionalProperties": False
                 }
-            } 
+            },
+            {
+                "type": "function",
+                "name": "get_group_meeting_names_and_summaries",
+                "description": "Get the names and summaries of all meetings for a given group.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "group_id": {
+                            "type": "string",
+                            "description": "The ID of the group"
+                        },
+                        "from_date": {
+                            "type": "string",
+                            "description": "The start date of the range to filter meetings in yyyy-mm-dd format"
+                        },
+                        "to_date": {
+                            "type": "string",
+                            "description": "The end date of the range to filter meetings in yyyy-mm-dd format"
+                        }
+                    },
+                    "required": [
+                        "group_id"
+                    ],
+                    "additionalProperties": False
+                }
+            }
         ]
         # 2. map the tool definitions to the tool implementations here
         self.tools_map = {
             "get_weather": WeatherTool.get_weather,
+            "get_group_meeting_names_and_summaries": SupabaseTool.get_group_meeting_names_and_summaries,
         }
         # 3. make a new <tool_name>_tool.py file for each tool implementation. See weather_tool.py for example
     
