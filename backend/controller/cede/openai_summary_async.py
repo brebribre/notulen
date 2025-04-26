@@ -23,7 +23,6 @@ class AsyncTranscriptSummarizer(TranscriptSummarizer):
         result: MeetingSummary = completion.choices[0].message
         if getattr(result, "refusal", None):                # spec per helpers.md :contentReference[oaicite:1]{index=1}
             raise RuntimeError(f"Model refused: {result.refusal}")
-        print("CHUNK")
         return result.parsed 
 
     async def summarize_async(self, transcript: str) -> MeetingSummary:

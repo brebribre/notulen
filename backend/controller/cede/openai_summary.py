@@ -55,6 +55,5 @@ class TranscriptSummarizer:
         slices = (tokens[i : i + target_tokens]                     # ② slice tokens
                 for i in range(0, len(tokens), step))
         chunks = [self.encoder.decode(s) for s in slices]           # ③ decode back
-        print(f"Chunked {len(chunks)} segments")
         return chunks
 
