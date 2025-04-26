@@ -44,12 +44,15 @@ from routes.openai_route import router as openai_router
 from routes.groups_route import router as groups_router
 from routes.users_route import router as users_router
 from routes.audio_files_route import router as audio_files_router
+from routes.meetings_route import router as meetings_router
 
 app.include_router(telegram_router, prefix="/telegram", tags=["Telegram"])
 app.include_router(openai_router, prefix="/openai", tags=["OpenAI"])
 app.include_router(groups_router, prefix="", tags=["Groups"])
 app.include_router(users_router, prefix="", tags=["Users"])
 app.include_router(audio_files_router, prefix="", tags=["Audio Files"])
+app.include_router(meetings_router, prefix="", tags=["Meetings"])
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Digital Ocean often uses port 8000
     uvicorn.run(
