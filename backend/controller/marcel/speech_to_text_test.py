@@ -14,7 +14,7 @@ audio_paths= [
 ]
 
 # Select the audio file to transcribe
-audio_path = audio_paths[1]
+audio_path = audio_paths[2]
 
 # Sample usage of the SpeechToText class
 # Transcribe the audio file by path
