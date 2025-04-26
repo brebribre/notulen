@@ -16,7 +16,6 @@ class SupabaseController:
             raise ValueError(
                 "Supabase URL and key must be provided in environment variables"
             )
-
         self.client: Client = create_client(self.supabase_url, self.supabase_key)
 
     def select(

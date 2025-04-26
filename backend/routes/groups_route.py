@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 import uuid
 from datetime import datetime
 from controller.supabase.supabase_utils import SupabaseController
+import traceback
 
 router = APIRouter()
 supabase = SupabaseController()
@@ -230,6 +231,26 @@ async def add_user_to_group(group_id: uuid.UUID, member: UserGroup, admin_id: uu
         if not admin_check:
             raise HTTPException(status_code=403, detail="Only group admins can add members")
         
+        # Verify the user exists in the users table
+        user_exists = supabase.select(
+            "users",
+            "*",
+            filters={"id": str(member.user_id)}
+        )
+        
+        if not user_exists:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Check if user is already a member of the group
+        existing_membership = supabase.select(
+            "user_groups",
+            "*",
+            filters={"user_id": str(member.user_id), "group_id": str(group_id)}
+        )
+        
+        if existing_membership:
+            raise HTTPException(status_code=400, detail="User is already a member of this group")
+        
         # Add the user to the group
         user_group_data = {
             "user_id": str(member.user_id),
@@ -240,7 +261,11 @@ async def add_user_to_group(group_id: uuid.UUID, member: UserGroup, admin_id: uu
         result = supabase.insert("user_groups", user_group_data)
         
         return {"success": True, "message": "User added to group successfully"}
+    except HTTPException as e:
+        raise e
     except Exception as e:
+        print(f"Error in add_user_to_group: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/groups/{group_id}/members/{user_id}")
@@ -292,46 +317,96 @@ async def get_group_members(group_id: uuid.UUID):
         if not user_groups:
             return []
         
-        # Get user information from the auth admin API
-        response = supabase.client.auth.admin.list_users()
-        
-        if hasattr(response, "users"):
-            users = response.users
-        elif hasattr(response, "data") and hasattr(response.data, "users"):
-            users = response.data.users
-        else:
-            users = []
-            
-        # Create a dictionary of users for fast lookup
-        users_dict = {}
-        for user in users:
-            user_data = {
-                "id": user.id,
-                "email": user.email,
-                "name": None
-            }
-            
-            # Extract name from user metadata if available
-            if hasattr(user, "user_metadata") and user.user_metadata:
-                if isinstance(user.user_metadata, dict) and "name" in user.user_metadata:
-                    user_data["name"] = user.user_metadata["name"]
-                    
-            users_dict[user.id] = user_data
-        
-        # Combine user_groups with user information
+        # Get user information from the users table instead of auth API
         result = []
         for ug in user_groups:
             user_id = ug.get("user_id")
-            if user_id in users_dict:
+            if not user_id:
+                continue
+                
+            # Get user info from the users table
+            user_info = supabase.select(
+                "users",
+                "*",
+                filters={"id": user_id}
+            )
+            
+            if user_info and len(user_info) > 0:
+                user = user_info[0]
                 member_data = {
                     "user_id": user_id,
                     "role": ug.get("role"),
                     "joined_at": ug.get("joined_at"),
-                    "email": users_dict[user_id]["email"],
-                    "name": users_dict[user_id]["name"]
+                    "email": user.get("email"),
+                    "name": user.get("name")
                 }
                 result.append(member_data)
         
         return result
     except Exception as e:
+        print(f"Error in get_group_members: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/search-users")
+async def search_users(search: str):
+    """
+    Search for users by email or name.
+    Used for finding users to add to a group.
+    """
+    try:
+        if not search or len(search.strip()) < 2:
+            raise HTTPException(status_code=400, detail="Search term must be at least 2 characters")
+        
+        # Use Supabase select with comparison operators
+        # First search by email (exact match)
+        users_by_email = supabase.select(
+            "users",
+            "*",
+            filters={"email": search}
+        )
+        
+        # Then search by email or name (partial match)
+        # This would ideally use ILIKE, but since SupabaseController doesn't support it directly,
+        # we'll implement a simple client-side filter
+        all_users = supabase.select(
+            "users",
+            "*",
+            limit=100  # Limit to prevent loading too many users
+        )
+        
+        # Filter users by search term (case insensitive)
+        search_term = search.lower()
+        filtered_users = []
+        
+        # Start with exact email matches
+        for user in users_by_email:
+            if user not in filtered_users:
+                filtered_users.append(user)
+        
+        # Add partial matches
+        user_ids = [user.get("id") for user in filtered_users]  # To avoid duplicates
+        for user in all_users:
+            if user.get("id") in user_ids:
+                continue
+                
+            # Safely get email and name, converting None to empty string
+            email = user.get("email", "") or ""
+            name = user.get("name", "") or ""
+            
+            # Convert to lowercase for case-insensitive comparison
+            email_lower = email.lower()
+            name_lower = name.lower()
+            
+            if search_term in email_lower or search_term in name_lower:
+                filtered_users.append(user)
+                
+        # Return the first 10 matches at most
+        return filtered_users[:10]
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        print(f"Error in search_users: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=400, detail=str(e))

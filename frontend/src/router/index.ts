@@ -7,6 +7,9 @@ import { useAuthStore } from '@/stores/auth'
 import AppView from '@/views/AppView.vue'
 import HomeView from '@/views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import GroupMainContainer from '@/containers/GroupMainContainer.vue'
+import RecordContainer from '@/containers/RecordContainer.vue'
+import MeetingDetailsContainer from '@/containers/MeetingDetailsContainer.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,6 +43,24 @@ const router = createRouter({
             component: ProfileView,
             meta: { requiresAuth: true }
           },
+          {
+            path: '/groups/:groupId',
+            name: 'group-details',
+            component: GroupMainContainer,
+            meta: { requiresAuth: true }
+          },
+          {
+            path: '/groups/:groupId/record',
+            name: 'group-record',
+            component: RecordContainer,
+            meta: { requiresAuth: true }
+          },
+          {
+            path: '/groups/:groupId/meetings/:meetingId',
+            name: 'meeting-details',
+            component: MeetingDetailsContainer,
+            meta: { requiresAuth: true }
+          }
       ]
     },
     {
@@ -58,7 +79,7 @@ const router = createRouter({
 })
 
 // Navigation guards
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _, next) => {
   const authStore = useAuthStore()
   
   // Initialize auth if not already done

@@ -1,5 +1,5 @@
 from typing import List, Dict, Any, Optional
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 import uuid
 from datetime import datetime
@@ -49,3 +49,5 @@ async def get_user(user_id: uuid.UUID):
         raise e
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+#TODO: Add a route to get all users or by email (for add user to group)
