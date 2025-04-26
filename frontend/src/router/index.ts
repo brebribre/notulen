@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth'
 import AppView from '@/views/AppView.vue'
 import HomeView from '@/views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import GroupMainContainer from '@/containers/GroupMainContainer.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,6 +39,12 @@ const router = createRouter({
             path: '/profile',
             name: 'profile',
             component: ProfileView,
+            meta: { requiresAuth: true }
+          },
+          {
+            path: '/groups/:groupId',
+            name: 'group-details',
+            component: GroupMainContainer,
             meta: { requiresAuth: true }
           },
       ]

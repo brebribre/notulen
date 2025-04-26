@@ -9,7 +9,7 @@ load_dotenv()
 
 # Environment configuration
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
 
 ALLOWED_ORIGINS = [FRONTEND_URL]
 if ENVIRONMENT == 'production':
