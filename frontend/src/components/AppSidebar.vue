@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {
   Home,
-  Inbox,
   User,
   LogOut,
   Mail,
-  UserCircle
 } from 'lucide-vue-next'
 import {
   Sidebar,
@@ -19,7 +17,7 @@ import {
   SidebarFooter
 } from '@/components/ui/sidebar'
 import { useRouter } from 'vue-router'
-import { onMounted, computed } from 'vue'
+import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()

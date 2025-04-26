@@ -40,7 +40,6 @@ const {
 } = useGroups()
 
 const {
-  loading: agentLoading,
   error: agentError,
   getGroupAssistantResponse
 } = useAgents()
@@ -132,7 +131,6 @@ const sendMessage = async () => {
   chatMessages.value.push(userMessage)
   
   // Clear input
-  const userQuery = chatMessage.value
   chatMessage.value = ''
   
   // Show typing indicator

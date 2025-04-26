@@ -6,7 +6,7 @@ import { useAudioFiles } from '@/hooks/useAudioFiles'
 import { formatDate } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Loader2, FileAudio, Calendar, Clock, Download, Trash2, AlertCircle, CheckCircle2, User, Tag, ArrowLeft } from 'lucide-vue-next'
+import { Loader2, FileAudio, Calendar, Clock, Download, Trash2, AlertCircle, CheckCircle2, User, ArrowLeft } from 'lucide-vue-next'
 import {
   Card,
   CardContent,
@@ -23,7 +23,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import {
   Accordion,
@@ -45,7 +44,6 @@ const {
   error: meetingError, 
   fetchMeeting,
   fetchAudioByMeetingId,
-  updateMeeting,
   clearMeetingTranscriptAndSummary
 } = useMeetings()
 
@@ -117,9 +115,9 @@ const loadMeetingData = async () => {
   }
 }
 
-// Navigate back to dashboard
-const navigateToDashboard = () => {
-  router.push('/dashboard')
+// Navigate back to group
+const navigateToGroup = () => {
+  router.push(`/groups/${groupId.value}`)
 }
 
 // Poll for updates when processing
@@ -280,11 +278,11 @@ onUnmounted(() => {
       <Button 
         variant="outline" 
         size="sm" 
-        @click="navigateToDashboard" 
+        @click="navigateToGroup" 
         class="flex items-center"
       >
         <ArrowLeft class="h-4 w-4 mr-2" />
-        Back to Groups
+        Back to Group
       </Button>
     </div>
     

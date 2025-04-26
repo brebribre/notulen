@@ -2,7 +2,6 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useAudioFiles } from '@/hooks/useAudioFiles'
 import { useMeetings } from '@/hooks/useMeetings'
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
@@ -17,7 +16,7 @@ import {
 const route = useRoute()
 const router = useRouter()
 const { uploadAudioFile, loading: uploadLoading } = useAudioFiles()
-const { fetchMeeting, updateMeeting, fetchAudioByMeetingId, loading: meetingLoading } = useMeetings()
+const { fetchMeeting, fetchAudioByMeetingId, loading: meetingLoading } = useMeetings()
 
 const groupId = route.params.groupId as string
 const meetingId = computed(() => route.query.meetingId as string | undefined)
@@ -32,7 +31,6 @@ const recordingTimer = ref<number | null>(null)
 const errorMessage = ref<string | null>(null)
 
 // Dialog and meeting data
-const showSaveDialog = ref(false)
 const meetingName = ref('')
 const meetingDate = ref(new Date().toISOString())
 const meeting = ref<any>(null)
@@ -161,28 +159,6 @@ const triggerFileInput = () => {
   }
 }
 
-// Open save dialog
-const openSaveDialog = () => {
-  // Use existing meeting name if available
-  if (!meetingName.value && meeting.value) {
-    meetingName.value = meeting.value.name
-  }
-  
-  // Otherwise set default name based on date
-  if (!meetingName.value) {
-    const now = new Date()
-    meetingName.value = `Meeting ${now.toLocaleDateString()}`
-  }
-  
-  // Use existing meeting date if available
-  if (meeting.value) {
-    meetingDate.value = meeting.value.meeting_datetime
-  } else {
-    meetingDate.value = new Date().toISOString()
-  }
-  
-  showSaveDialog.value = true
-}
 
 // Check if save is possible
 const canSave = computed(() => {

@@ -1,14 +1,10 @@
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
 
 interface Message {
   role: string
   content: string
 }
 
-interface AgentResponse {
-  text: string
-}
 
 interface AgentRequestOptions {
   name: string
@@ -20,7 +16,6 @@ interface AgentRequestOptions {
 }
 
 export function useAgents() {
-  const authStore = useAuthStore()
   const loading = ref(false)
   const error = ref<string | null>(null)
 
