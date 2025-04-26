@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 from openai import AsyncOpenAI
-from openai_summary import TranscriptSummarizer, MeetingSummary
+from controller.cede.openai_summary import TranscriptSummarizer, MeetingSummary
 
 class AsyncTranscriptSummarizer(TranscriptSummarizer):
     def __init__(self, *args, concurrency: int = 5, **kwargs):
