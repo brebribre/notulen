@@ -87,7 +87,6 @@ async def create_single_agent_response(request: SingleAgentResponseRequest):
             # Convert Pydantic model objects to dictionaries
             formatted_input = [message.dict() for message in formatted_input]
         
-        print('TOOLS: ', processed_tools)
         response = await openai_utils.create_single_agent_response(
             name=request.name,
             instructions=request.instructions,

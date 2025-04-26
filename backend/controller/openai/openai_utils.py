@@ -3,6 +3,7 @@ import json
 from typing import List, Dict, Any, Optional, Union
 from openai import OpenAI
 from dotenv import load_dotenv
+from datetime import datetime
 from agents import Agent, Runner,function_tool
 import asyncio
 from controller.tools.tools import Tools
@@ -106,6 +107,11 @@ class OpenAIUtils:
         if tools is None:
             tools = []
         
+        # function to get current day in yyyy-mm-dd format
+        def get_current_day():
+            return datetime.now().strftime("%Y-%m-%d")
+        
+
         # Format the input correctly based on its type
         if isinstance(input_text, str):
             formatted_input = [{"role": "user", "content": input_text}]
@@ -115,7 +121,8 @@ class OpenAIUtils:
             raise ValueError("input_text must be either a string or a list of message objects")
         
         try:
-            agent = Agent(name, instructions=instructions, tools=tools)
+            instruction_default = f"Today's date is {get_current_day()}. Use this for reference when user says ambigous names such as today yesterday etc. Always reject other questions that unrelated to the meetings."
+            agent = Agent(name, instructions=instructions + instruction_default, tools=tools)
             
             response = await Runner.run(agent, input_text)
             
