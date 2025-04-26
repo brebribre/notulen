@@ -15,7 +15,10 @@ import {
   DialogFooter,
   DialogClose
 } from '@/components/ui/dialog'
-import { Plus, Loader2, RefreshCw, User } from 'lucide-vue-next'
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, 
+  AlertDialogTitle, AlertDialogDescription, AlertDialogCancel, AlertDialogAction 
+} from '@/components/ui/alert-dialog'
+import { Plus, Loader2, RefreshCw, User, Trash2 } from 'lucide-vue-next'
 
 // Get groups functionality from the hook
 const { 
@@ -23,7 +26,8 @@ const {
   loading, 
   error, 
   fetchGroups, 
-  createGroup 
+  createGroup,
+  deleteGroup
 } = useGroups()
 
 // State for the new group form
@@ -31,6 +35,11 @@ const newGroupName = ref('')
 const newGroupDescription = ref('')
 const creatingGroup = ref(false)
 const dialogOpen = ref(false)
+
+// State for delete confirmation
+const deleteDialogOpen = ref(false)
+const groupToDelete = ref<{ id: string, name: string } | null>(null)
+const deletingGroup = ref(false)
 
 // Fetch groups when component mounts
 onMounted(async () => {
@@ -50,6 +59,28 @@ const handleCreateGroup = async () => {
     dialogOpen.value = false
   } finally {
     creatingGroup.value = false
+  }
+}
+
+// Function to show delete confirmation dialog
+const confirmDeleteGroup = (groupId: string, groupName: string) => {
+  groupToDelete.value = { id: groupId, name: groupName }
+  deleteDialogOpen.value = true
+}
+
+// Function to handle group deletion
+const handleDeleteGroup = async () => {
+  if (!groupToDelete.value) return
+  
+  deletingGroup.value = true
+  try {
+    await deleteGroup(groupToDelete.value.id)
+    deleteDialogOpen.value = false
+    groupToDelete.value = null
+  } catch (err) {
+    console.error('Error deleting group:', err)
+  } finally {
+    deletingGroup.value = false
   }
 }
 
@@ -160,13 +191,21 @@ const onDialogOpenChange = (open: boolean) => {
           
           <div class="flex justify-between items-center text-sm text-muted-foreground">
             <span>Created: {{ new Date(group.created_at).toLocaleDateString() }}</span>
-            <Button 
-              variant="ghost"
-              size="sm"
-              @click="$router.push(`/groups/${group.id}`)"
-            >
-              View Details
-            </Button>
+            <div class="flex gap-2">
+              <Button 
+                variant="destructive"
+                size="sm"
+                @click="confirmDeleteGroup(group.id, group.name)"
+              >
+                <Trash2 class="h-4 w-4" />
+              </Button>
+              <Button 
+                size="sm"
+                @click="$router.push(`/groups/${group.id}`)"
+              >
+                View Details
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -187,6 +226,30 @@ const onDialogOpenChange = (open: boolean) => {
         Create a Group
       </Button>
     </div>
+    
+    <!-- Delete Confirmation Dialog -->
+    <AlertDialog v-model:open="deleteDialogOpen">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure you want to delete this group?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete the group "{{ groupToDelete?.name }}" and all associated data. 
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction 
+            @click="handleDeleteGroup" 
+            class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            :disabled="deletingGroup"
+          >
+            <Loader2 v-if="deletingGroup" class="mr-1 h-4 w-4 animate-spin" />
+            {{ deletingGroup ? 'Deleting...' : 'Delete Group' }}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     
     <!-- Skeleton Loading State (not shown currently but available for future use) -->
     <div v-if="false" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

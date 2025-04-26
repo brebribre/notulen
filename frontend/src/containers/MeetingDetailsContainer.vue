@@ -6,7 +6,7 @@ import { useAudioFiles } from '@/hooks/useAudioFiles'
 import { formatDate } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Loader2, FileAudio, Calendar, Clock, Download, Trash2, AlertCircle, CheckCircle2, User, Tag } from 'lucide-vue-next'
+import { Loader2, FileAudio, Calendar, Clock, Download, Trash2, AlertCircle, CheckCircle2, User, Tag, ArrowLeft } from 'lucide-vue-next'
 import {
   Card,
   CardContent,
@@ -115,6 +115,11 @@ const loadMeetingData = async () => {
   } catch (err) {
     console.error('Error loading meeting data:', err)
   }
+}
+
+// Navigate back to dashboard
+const navigateToDashboard = () => {
+  router.push('/dashboard')
 }
 
 // Poll for updates when processing
@@ -270,6 +275,19 @@ onUnmounted(() => {
 
 <template>
   <div class="container p-4 mx-auto">
+    <!-- Back button -->
+    <div class="mb-4">
+      <Button 
+        variant="outline" 
+        size="sm" 
+        @click="navigateToDashboard" 
+        class="flex items-center"
+      >
+        <ArrowLeft class="h-4 w-4 mr-2" />
+        Back to Groups
+      </Button>
+    </div>
+    
     <!-- Loading state -->
     <div v-if="loading" class="flex flex-col items-center justify-center my-12 space-y-4">
       <Loader2 class="h-8 w-8 mx-auto animate-spin text-primary" />

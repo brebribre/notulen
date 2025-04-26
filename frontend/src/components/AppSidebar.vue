@@ -40,12 +40,6 @@ const items: MenuItem[] = [
     route: '/dashboard',
     icon: Home
   },
-  {
-    title: 'Inbox',
-    route: '/inbox',
-    icon: Inbox,
-    requiresAuth: true
-  },
 ]
 
 const filteredItems = computed(() => {
