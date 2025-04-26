@@ -6,8 +6,9 @@
   "scripts": {
     "frontend": "cd frontend && npm run dev",
     "backend": "cd backend && source venv/bin/activate && uvicorn main:app --reload",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
-    "install-all": "npm install && cd frontend && npm install && cd ../backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+    "workers": "cd workers && source venv/bin/activate && uvicorn main:app --port 5000 --reload",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run workers\"",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && cd ../workers && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "build": "cd frontend && npm run build",
     "start": "cd backend && source venv/bin/activate && gunicorn -c gunicorn_config.py main:app"
   },

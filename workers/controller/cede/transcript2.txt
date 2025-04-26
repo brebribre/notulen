@@ -1,0 +1,1169 @@
+00:00:00.080 i can record and uh we don't have a ton
+00:00:05.839 of items to get to uh
+00:00:09.360 and i might be able to do one that might
+00:00:11.759 be fun
+00:00:13.280 if we have a little bit of time um
+00:00:16.320 so corporate events uh
+00:00:21.279 they i think i saw a little i put this
+00:00:24.320 in
+00:00:24.720 in slack and i saw a little bit of uh
+00:00:27.119 kind of noise around it
+00:00:28.640 which was good um
+00:00:32.159 you know the the nutshell here is as
+00:00:34.640 we've kind of restructured
+00:00:36.000 and tried different things um
+00:00:39.280 the event support that we need isn't as
+00:00:42.160 nailed down as it needs to be
+00:00:44.079 uh so the current tactic
+00:00:47.920 that we're going with is go to market
+00:00:50.480 team
+00:00:51.520 signs up and kind of sponsors that event
+00:00:55.440 so
+00:00:56.000 you support it as a pmm your campaign
+00:00:58.160 manager does the campaigns for that
+00:00:59.680 event
+00:01:00.399 et cetera et cetera et cetera uh i don't
+00:01:03.920 see anyone in the uh maybe their
+00:01:07.200 comments in the issue
+00:01:08.479 i don't see the the header updated yet
+00:01:12.159 i thought we had in slack sort of farmed
+00:01:14.880 each one of them out
+00:01:16.640 that's so i guess the the next so it
+00:01:19.360 looks like
+00:01:22.080 tai put in
+00:01:25.520 some folks it looks like this looks good
+00:01:30.400 so that let's see
+00:01:34.159 need support from gtm teams so i guess
+00:01:36.720 the ask would be
+00:01:39.280 um to work with your gtm team so
+00:01:43.840 so did let me ask that i saw some slack
+00:01:46.799 i think in our slack
+00:01:48.479 but did you all uh were you all able to
+00:01:51.680 connect with like your gtm
+00:01:53.360 teams
+00:01:56.799 uh on slack only and on the issue
+00:01:59.840 actually
+00:02:00.799 yeah same not even not in real time but
+00:02:03.280 you know source feedback
+00:02:04.560 i got one person to respond so far so it
+00:02:07.040 may end up
+00:02:07.600 cindy being you and i just picking the
+00:02:09.280 one that we want to do and then they can
+00:02:11.120 back us up
+00:02:14.800 if we don't get any more feedback
+00:02:18.560 yeah do y'all um does anybody have like
+00:02:21.840 a regular sink
+00:02:23.360 still are those all been cancelled or is
+00:02:26.160 there
+00:02:28.879 cases don't have a regular yeah we're on
+00:02:31.840 like a two-week
+00:02:32.959 cadence okay yeah git ops has been
+00:02:36.400 cancelled
+00:02:37.680 after the enablement
+00:02:42.319 cool so i'm just trying to catch up with
+00:02:45.519 the thread
+00:02:48.840 um
+00:02:50.000 so it looks like maybe uh platform on
+00:02:53.200 reinvent
+00:02:55.280 ci cd on google next and get ops on
+00:02:58.159 kubecon does that sound right
+00:03:00.000 yeah yep that's where we were last i
+00:03:02.840 heard
+00:03:04.159 cool so then i think um
+00:03:08.879 i think we can we can help the corp
+00:03:11.120 events team they do
+00:03:12.239 they do a lot of like uh cat hurting and
+00:03:15.680 you know keep on tracking people down so
+00:03:18.400 i think if
+00:03:19.280 if this team can take the mission to
+00:03:22.000 like
+00:03:22.640 try to help track that down so if you
+00:03:25.840 you know get the commitment specifically
+00:03:28.879 from your campaign managers hey
+00:03:30.400 like we're signing up for kubecon you
+00:03:33.440 know
+00:03:33.760 can you comment on the issue that yes i
+00:03:35.840 can commit to this
+00:03:37.280 etc etc etc you know um
+00:03:41.440 so that just so that they can get that
+00:03:43.519 that event support but that looks good
+00:03:45.519 and i appreciate
+00:03:47.760 uh thanks for the link to samya on the
+00:03:49.760 rolls
+00:03:51.360 uh product announcements
+00:03:55.519 so i appreciate brian for adding this i
+00:03:58.959 probably should have added it but
+00:04:02.319 i had two questions about that one one
+00:04:05.599 is
+00:04:06.080 over what time frame are we looking at
+00:04:09.599 so uh so in theory
+00:04:13.280 this is this could be the same as the
+00:04:15.439 gitlab 14 launch where
+00:04:16.959 we're saying basically since 13.0 what
+00:04:20.238 has
+00:04:20.880 you know what kind of big improvements
+00:04:22.560 have we made
+00:04:24.479 um candidly this is always a little bit
+00:04:28.639 tough and i'm and i'm
+00:04:30.960 i'm not totally sure of all of the
+00:04:35.680 kind of the interplay here but i think
+00:04:38.720 i think this is kind of the general gist
+00:04:40.960 of this assignment
+00:04:42.479 is okay we have commit coming up we have
+00:04:45.280 some amount of
+00:04:46.240 like we have a stage uh you know
+00:04:49.280 a metaphorical stage to say something to
+00:04:52.080 the world
+00:04:52.880 and we'll get some amount of press
+00:04:54.720 attention because we're having an event
+00:04:56.960 right what kind of announcements do we
+00:04:59.040 make
+00:05:00.720 at gitlab it's really really tough to
+00:05:02.479 make product announcements
+00:05:03.840 because our entire roadmap is completely
+00:05:06.160 public
+00:05:07.440 yada yada yada so the thought here is to
+00:05:12.560 but also because our entire roadmap is
+00:05:14.720 completely public and because we ship
+00:05:16.320 these tiny little nbc's
+00:05:17.840 a a new feature will come out but it'll
+00:05:19.919 be
+00:05:20.880 not really usable right so it takes a
+00:05:23.199 while so
+00:05:24.000 if you look back over the past year and
+00:05:26.320 say okay like what
+00:05:27.600 started in the last year but now is
+00:05:29.759 really like
+00:05:30.720 a full-fledged feature what would what
+00:05:32.479 would be coming out of beta
+00:05:34.479 right like if we were any other company
+00:05:36.960 when we started a beta
+00:05:38.000 program in this last year what would we
+00:05:40.080 be announcing is ga
+00:05:41.759 at commit that's kind of that's kind of
+00:05:44.560 my thought on it
+00:05:46.080 did i see a couple head nods what do you
+00:05:48.000 think cindy
+00:05:50.240 yeah i think i was inclined to group
+00:05:53.440 some things to say like vulnerability
+00:05:56.400 management because there were tiny
+00:05:57.759 little
+00:05:58.240 mvcs all the way along but if you look
+00:06:00.319 at over the course of the year
+00:06:02.639 we went from this to this it makes more
+00:06:05.840 sense to me to highlight that than in
+00:06:07.680 any individual little thing and then
+00:06:11.039 the other point was we just
+00:06:14.400 had 14.0 can we just can we reuse some
+00:06:17.759 of those things and plug them in here
+00:06:19.759 absolutely
+00:06:20.639 yeah yeah and vulnerability management
+00:06:23.120 was was one of the
+00:06:24.960 you know the features out of we looked
+00:06:27.039 at 14.00 so i think
+00:06:28.720 yeah this is like let's take the stuff
+00:06:30.080 from 14.00 and then
+00:06:32.080 maybe add a few more so that we can hit
+00:06:34.800 kind of different areas of press
+00:06:36.319 or give give our pr team this is kind of
+00:06:39.039 like
+00:06:39.440 input into our pr team to give them
+00:06:41.280 fodder to go out with
+00:06:42.800 and are we trying to hit three per stage
+00:06:45.919 i yeah ideally there's just you know
+00:06:48.080 three
+00:06:48.960 you know uh three items per stage
+00:06:52.560 and then i think y'all made some good
+00:06:54.639 notes that okay we need to add manage so
+00:06:56.400 i see manage in here that's excellent
+00:06:58.800 um and uh integrations we don't
+00:07:04.000 well actually we have some pretty
+00:07:05.199 exciting integrations so we have
+00:07:07.280 the jira stuff is pretty good there's a
+00:07:08.960 couple of things in uh integrations with
+00:07:10.960 vs code
+00:07:12.240 that could be notable but
+00:07:16.720 i can i show what i did for scm just to
+00:07:19.599 get some general feedback on it and
+00:07:21.759 if someone hasn't done it maybe that
+00:07:23.280 will also okay
+00:07:25.039 i was going cindy's direction here which
+00:07:28.080 was uh thinking
+00:07:29.759 you know a lot of and then i called them
+00:07:31.360 key iterations the sort of specific
+00:07:33.360 things
+00:07:34.319 so i listed a few specific things like
+00:07:36.400 three or four per each
+00:07:37.840 as key iterations but i called them
+00:07:39.919 something overall so we would have like
+00:07:41.840 one thing to call them
+00:07:44.960 there are several key iterations aligned
+00:07:47.199 with getaway cluster
+00:07:49.280 uh several that roll up to a
+00:07:51.680 research-based
+00:07:52.800 user experience and i was thinking like
+00:07:55.919 i was shy on calling out ux as as a
+00:07:58.720 bucket
+00:07:59.199 except that actually that's that's super
+00:08:01.520 typical right like windows 11 or anybody
+00:08:03.680 who's rolling stuff out they almost
+00:08:05.199 always have ux as one of their three
+00:08:07.039 things
+00:08:07.840 and then they mention a laundry list of
+00:08:09.520 stuff that aligns to that
+00:08:11.440 um so i i you know forgave myself for
+00:08:14.479 doing something
+00:08:15.039 at first i was kind of like shy about
+00:08:16.720 calling out ux and
+00:08:18.160 bucketing some things there but actually
+00:08:19.599 when i looked around that's pretty much
+00:08:20.879 how everybody does
+00:08:22.800 a big launch and in terms of the
+00:08:25.120 excitement level that
+00:08:26.000 also like i went in thinking this is
+00:08:27.919 just a two
+00:08:29.440 i guess part of it is like i feel like
+00:08:31.120 we're almost fixing something that's
+00:08:32.320 broken
+00:08:33.120 and that's not something you want to
+00:08:34.240 shout from the rooftops about
+00:08:36.240 but actually some of that stuff's really
+00:08:38.000 cool so i gave it a three
+00:08:40.000 excitement level i wasn't sure exactly
+00:08:41.679 where to place things um
+00:08:43.519 but i figured i wouldn't like to cindy's
+00:08:46.880 comment have something that's a one here
+00:08:48.399 anyway
+00:08:49.440 but i the only way i could make sense of
+00:08:51.680 like the iterations
+00:08:53.680 was to to bucket them with something and
+00:08:56.959 uh so that's kind of how i came down on
+00:08:58.720 it i don't know what everyone thinks
+00:08:59.920 about that
+00:09:04.560 i like that
+00:09:10.080 i've done a similar i've taken a similar
+00:09:12.320 approach for
+00:09:13.760 monitor um with incident management
+00:09:16.720 there were a bunch of things that we
+00:09:18.240 released
+00:09:19.440 um although the core of incident
+00:09:21.600 management was
+00:09:23.040 part of trial.x i think so um
+00:09:26.480 i did the same over there as well yeah i
+00:09:29.519 think that makes sense
+00:09:30.959 yeah and that that would help me with
+00:09:33.200 the planned stuff as well because there
+00:09:34.880 are some things like epic boards that
+00:09:36.640 people have been asking for
+00:09:38.000 for years now and they finally have and
+00:09:40.640 that's great but
+00:09:42.480 i think you know like the the milestone
+00:09:44.720 burn up charts
+00:09:46.560 that that was a two and that's that's
+00:09:48.240 helpful and i was looking through
+00:09:49.760 features and you know actual monthly
+00:09:53.040 features that were released in a given
+00:09:54.480 month i mean that was one of the more
+00:09:56.080 important ones but it's not very
+00:09:57.360 exciting but
+00:09:58.160 we can bundle that with some other
+00:09:59.760 things and and
+00:10:01.360 up level it so that that would be
+00:10:03.440 helpful there and also brian about the
+00:10:04.959 vs code thing
+00:10:06.320 one other cool thing about that is both
+00:10:08.399 of those vs code integrations that hit
+00:10:10.720 the same month were community
+00:10:13.279 contributions
+00:10:14.480 which is also kind of cool is
+00:10:19.040 is that is do we have vs code listed on
+00:10:21.600 here
+00:10:23.760 i didn't add it but i can i can add that
+00:10:26.160 in i've got good notes on that
+00:10:28.399 the extension that had been around for a
+00:10:30.320 while became official was kind of one of
+00:10:32.480 the things but there's some other stuff
+00:10:33.680 that's a little juicier than that
+00:10:38.240 and that i think that's a that's a
+00:10:40.800 pretty
+00:10:41.760 good note as well um we did that with
+00:10:45.279 like our our terraform module
+00:10:47.360 right there was like a community module
+00:10:49.519 but now it's officially supported
+00:10:51.839 so that's that's the you know
+00:10:55.120 that can be the line yes or no whether
+00:10:56.640 you can use the thing
+00:10:58.720 uh for a lot of businesses so i think
+00:11:00.720 that's a good one too
+00:11:02.240 how are we measuring excitement levels
+00:11:04.880 one two and three
+00:11:06.240 is there i was i was looking at
+00:11:10.720 um maybe mau as a metric
+00:11:14.160 to perhaps measure whether customers
+00:11:16.560 have started using that
+00:11:18.480 are interested in using that or not we
+00:11:21.600 probably may not have it for everything
+00:11:23.519 but at least
+00:11:24.399 some of it wherever we have it is it's
+00:11:27.040 probably something we
+00:11:28.000 can we can use yeah but we of course we
+00:11:31.440 need a benchmark level
+00:11:33.200 of what mau we want to call one two or
+00:11:36.000 three
+00:11:37.440 i i think it's a little it's a little
+00:11:39.519 bit of a judgment call
+00:11:40.959 like um you know for example cormac was
+00:11:45.200 saying
+00:11:45.600 uh like epic boards is something that
+00:11:48.160 was asked for for a long time
+00:11:50.240 now depending on how it's asked for
+00:11:53.440 maybe that means it's exciting or it's
+00:11:54.959 not right
+00:11:56.160 um but usually when something gets a lot
+00:11:59.839 of upvotes
+00:12:00.720 or when there's a lot of demand for it
+00:12:02.800 then i would i would bump the excitement
+00:12:04.480 level on something like that
+00:12:06.639 um certainly if something and a lot of
+00:12:09.680 people are using it
+00:12:11.200 the mau that's a that's another good
+00:12:13.200 measure i don't know that any
+00:12:15.360 one of those needs to kind of be
+00:12:16.480 exclusive i think it's a bit of a it's a
+00:12:18.079 bit of an individual judgment call and
+00:12:19.519 just like what is
+00:12:20.560 what is your feeling based on you know
+00:12:24.399 could be anecdotal like you talk to
+00:12:25.839 customers and they're like really hyper
+00:12:27.360 excited about this
+00:12:34.560 or you know maybe not which is which is
+00:12:36.880 okay i think it's okay
+00:12:38.720 um harsh responded to my comment about
+00:12:42.160 why we
+00:12:43.279 have the low excitement once and just
+00:12:45.360 said something about
+00:12:47.120 having him sort of stack ranked
+00:12:50.399 yeah i might
+00:12:54.240 i might even constrain this is we're not
+00:12:56.160 going to highlight log segments but we
+00:12:57.760 want to see the full spectrum
+00:13:00.079 especially in the case we have slim
+00:13:01.519 pickings alternately
+00:13:03.360 uh if there are double digit entries
+00:13:05.279 then we can stack rank
+00:13:07.920 um so that's
+00:13:11.760 that's kind of also helpful there so if
+00:13:14.480 if we have three for all of these that
+00:13:16.720 i mean it looks like we're going to get
+00:13:18.160 there and that's going to be quite a lot
+00:13:20.560 of features
+00:13:22.720 so um i might constrain it like this
+00:13:27.519 maybe you can only give out one one two
+00:13:30.880 or three
+00:13:32.560 and and treat it as a stack rank rather
+00:13:34.720 than just like a raw
+00:13:36.160 excitement level that doesn't
+00:13:38.000 necessarily
+00:13:39.279 hard somebody's one or somebody's three
+00:13:43.279 may be more important than somebody
+00:13:44.959 else's one
+00:13:46.320 depending and i had um i started by just
+00:13:50.000 looking at what was considered a key
+00:13:51.600 feature over the past year
+00:13:53.120 uh from from create and
+00:13:56.240 you know there are at least a dozen
+00:13:57.760 things that i'm not mentioning
+00:13:59.600 uh that could be on the list like i
+00:14:01.920 could give you ten things instead of
+00:14:03.440 three
+00:14:04.240 yeah give it give this just like the
+00:14:06.800 rough
+00:14:07.519 like pass and um
+00:14:10.959 like a lot of things recently i've been
+00:14:13.040 moving between docs and spreadsheets and
+00:14:14.880 the spreadsheet to docs
+00:14:16.639 uh this you know this might this might
+00:14:18.880 end up or some iteration of this might
+00:14:20.320 end up in a spreadsheet where we then
+00:14:21.920 try to stack rank in pr is like okay out
+00:14:24.079 of all of like the
+00:14:25.839 you know there's maybe 10 boxes here in
+00:14:28.639 three each out of the 30 items which are
+00:14:30.320 the top five
+00:14:32.160 um actually let's just let's actually
+00:14:35.040 just do that
+00:14:36.079 let's just do this like top top five
+00:14:39.279 overall this one is a pr driven to some
+00:14:43.600 degree
+00:14:44.000 what about like the noob and christie's
+00:14:45.839 uh product keynote
+00:14:47.279 at commit are we tailing this with that
+00:14:50.160 so
+00:14:50.480 so this is exactly where this is headed
+00:14:53.040 to
+00:14:53.680 um is the idea that um
+00:14:56.800 during the product keynote and then
+00:14:58.639 ideally during sid's
+00:15:00.320 keynote as well that there's some level
+00:15:03.040 of like an announcement that we make
+00:15:05.519 that then the press cares about that
+00:15:07.360 announcement
+00:15:08.720 um again really tough to do at gitlab
+00:15:11.360 because it's all been around for a while
+00:15:13.120 so this is this is our attempt to head
+00:15:15.760 to that area
+00:15:16.639 is to say like these are the
+00:15:17.760 announcements of the event
+00:15:19.680 and yeah maybe it's some things that
+00:15:21.920 have been around for a while but like
+00:15:23.440 now they're
+00:15:24.480 at a level of maturity now you know
+00:15:26.880 there's
+00:15:27.600 there's reason to be excited about this
+00:15:30.160 so
+00:15:30.639 that's kind of where it's coming from so
+00:15:33.839 i put
+00:15:35.279 uh a top five overall
+00:15:40.160 maybe we can just uh
+00:15:43.360 you know
+00:15:49.120 we should reserve a spot for plan but
+00:15:50.959 i'm gonna have to go through and do
+00:15:52.959 some aggregating after this just go
+00:15:55.199 through the list of what's shipped in
+00:15:56.399 the last 12 months and
+00:15:58.000 re-bucket that
+00:16:01.519 so uh
+00:16:06.720 maybe we can do like a five minutes kind
+00:16:09.440 of like um
+00:16:11.199 just just time boxing uh kind of look at
+00:16:14.160 these here
+00:16:14.800 what do what do you all think is uh top
+00:16:17.120 would be
+00:16:18.079 a top five out of the list of you know
+00:16:23.120 20 or 30.
+00:16:26.800 i would say if ux does end up being a
+00:16:30.000 flag that we fly that's an easy one
+00:16:32.000 because there's more than just maps to
+00:16:34.160 the create stage
+00:16:35.279 that would be considered ux improvement
+00:16:38.000 okay
+00:16:46.720 what else we need to have a security one
+00:16:49.519 in there
+00:16:50.000 we could have either vulnerability
+00:16:51.519 management or um
+00:16:54.560 i was what i've been struggling with a
+00:16:56.480 little bit is i'd like to kind of group
+00:16:59.440 the um some of this
+00:17:02.560 the proprietary scanning um
+00:17:08.319 without making it sound like they're
+00:17:10.079 scanning improvements
+00:17:11.520 because that sounds like they weren't
+00:17:13.280 good before
+00:17:15.039 yeah i let's let's go with vulnerability
+00:17:19.199 management for now i i
+00:17:20.640 and i would agree on that one and i
+00:17:22.319 would say that um
+00:17:24.400 some of these we did do some press
+00:17:25.839 around and the the fuzzing acquisitions
+00:17:28.640 was one thing so we might not get that
+00:17:31.039 kind of old
+00:17:33.760 i was i mean we did the fuzzing
+00:17:35.919 acquisitions
+00:17:37.039 a long time ago
+00:17:40.080 was it within the past year or longer
+00:17:44.480 i thought it was within the past year i
+00:17:46.640 think it was in the last
+00:17:48.640 little over six months or so it was last
+00:17:51.360 summer right
+00:17:52.160 or something around there it was like
+00:17:53.679 last spring or summer and then we did
+00:17:55.600 another set
+00:17:56.480 of press around the integration of it
+00:17:59.120 because the pr team liked all the
+00:18:01.840 i mean we got a lot of attention on the
+00:18:03.520 acquisition so they
+00:18:04.960 had me do a follow-up um on
+00:18:08.320 the integration i just feel like it's
+00:18:10.960 kind of worn out now
+00:18:12.320 but right that's what i was saying is
+00:18:14.320 that the the fuzzing we already did
+00:18:16.080 press on so we probably will not get
+00:18:18.240 another chomp at that so i think let's
+00:18:19.919 go with vulnerability management
+00:18:22.160 unreviewed but we also have in terms of
+00:18:25.440 proprietary stuff we've also got
+00:18:28.320 we replaced one of our scanners with
+00:18:30.799 semgrip
+00:18:32.400 and we did um we have our own
+00:18:34.240 proprietary dast
+00:18:36.000 scanner now that's in it's in beta
+00:18:40.559 called browser so it's our answer to
+00:18:44.160 scanning single page applications which
+00:18:46.799 represent a unique
+00:18:48.400 challenge i think
+00:18:52.080 i mean if i could have two it would be
+00:18:53.520 vulnerability management and berserker
+00:18:55.440 probably
+00:18:56.799 okay some grip could get picked up as a
+00:18:59.600 online item and a couple of the pieces
+00:19:01.440 about getback 14.
+00:19:03.430 [Music]
+00:19:08.240 which between between the the
+00:19:11.280 proprietary ships and the vulnerability
+00:19:12.880 management which would you pick as
+00:19:14.080 number one out of those two
+00:19:17.200 probably vulnerability management okay
+00:19:21.840 i'm just kind of scanning the list i
+00:19:24.400 would probably say like
+00:19:25.760 kubernetes agent is something that we've
+00:19:28.640 made a lot of investment in
+00:19:31.200 although
+00:19:36.720 i think the communities agent and from
+00:19:39.760 an integration point of view
+00:19:43.280 uh perhaps the terraform integration i
+00:19:45.600 think we have
+00:19:46.799 a lot of customers actually using that
+00:19:50.080 already
+00:19:51.360 so i'm gonna agree i'm just gonna call
+00:19:54.720 those get
+00:19:55.280 ops and i'm gonna put like
+00:19:58.400 ks agent plus
+00:20:02.559 hashi corp integrations
+00:20:06.880 it's like a bucket of capabilities that
+00:20:09.039 is probably worth talking about
+00:20:18.840 uh
+00:20:21.360 cool well let's you know let's try to uh
+00:20:25.200 this is due
+00:20:26.320 tuesday i think we want to try to get
+00:20:28.240 this done
+00:20:29.600 um so maybe just uh
+00:20:32.720 review this kind of like let's just kind
+00:20:34.880 of pick top five
+00:20:36.559 maybe something from planning something
+00:20:38.159 from ci cd
+00:20:40.080 uh yeah pipeline editor is definitely an
+00:20:42.000 option for ci cd
+00:20:43.919 um yeah there might be
+00:20:48.799 no sorry there might be a value stream
+00:20:50.400 analytics story in there too
+00:20:51.919 um if we aggregate at all it's it's a
+00:20:54.880 bummer that customizable value stream
+00:20:56.559 analytics is 12.9
+00:20:58.799 um but uh yeah
+00:21:02.320 there might be
+00:21:06.159 cool now i'm just gonna i'm gonna ping
+00:21:07.520 you on this cormac to add
+00:21:09.360 at a top five plan
+00:21:17.840 cool uh i think
+00:21:22.480 that's a pretty heavy pretty heavy list
+00:21:25.039 just looking at it you know it's pretty
+00:21:26.480 cool
+00:21:28.840 yeah and this is something we don't do
+00:21:31.200 which i i agree
+00:21:32.559 like we don't we don't often
+00:21:37.120 stop as a company and just kind of look
+00:21:38.960 at our wins
+00:21:40.159 no uh i was really i don't did y'all did
+00:21:44.159 anybody miss
+00:21:45.280 uh what do we call it assembly
+00:21:48.480 the assembly
+00:21:51.679 um if you missed it i recommend it i
+00:21:54.080 laughed because like what assembly
+00:21:55.679 reminds me of is like
+00:21:56.960 when i was in like a young child in
+00:21:59.520 grade school
+00:22:00.400 yeah they'd had this big stack of like
+00:22:02.880 carpet they were like squares of carpet
+00:22:05.280 and you go like you go into the gym and
+00:22:08.000 you'd pull off this a square of carpet
+00:22:09.919 and all the children
+00:22:11.360 would sit on a square of carpet and that
+00:22:13.280 was like you'd have an assembly
+00:22:15.200 yeah so that's why i remember that too
+00:22:17.919 put everyone in the gym
+00:22:19.360 or like convert the half cafeteria gym
+00:22:22.000 you know take away the big barrier
+00:22:24.080 between it so that we can have more room
+00:22:25.760 and then take those carpets that have
+00:22:27.039 never
+00:22:27.520 been cleaned and just you know sit on
+00:22:30.080 them and it'll be
+00:22:30.880 it'll be great beside aside from the
+00:22:33.039 goofy name
+00:22:34.000 i thought that um and of course we can't
+00:22:36.240 talk about any of it on youtube
+00:22:38.240 but man that was like a really awesome
+00:22:40.960 look back at like
+00:22:42.320 here's some wins and here's some
+00:22:43.600 exciting things that we've done um
+00:22:45.679 and so i think we just need to get
+00:22:47.520 better at this as a company i think this
+00:22:48.960 exercise is an opportunity that
+00:22:50.799 um i think we do a little bit of that
+00:22:52.320 but this is doing it more so
+00:22:54.559 uh samia you have some questions here
+00:22:59.520 for elita yes
+00:23:02.960 so in the competitive sheet i was
+00:23:06.159 i mean i've already identified the
+00:23:08.080 features for cd configure
+00:23:10.559 as well as uh monitor uh getting it
+00:23:13.520 reviewed from pm
+00:23:15.520 my guess was or my understanding was
+00:23:17.919 that we wouldn't have the same set of
+00:23:19.679 competitors that we're going to compare
+00:23:21.120 to but the
+00:23:22.559 right competitors for that particular
+00:23:24.720 stage right so for example
+00:23:27.360 for uh for monitor uh we may not have
+00:23:31.039 like a github or something like that we
+00:23:32.960 would have monitor based competitors
+00:23:35.600 or was that the understanding because
+00:23:39.039 we identified that entire list of
+00:23:41.679 competitors and partners for every
+00:23:43.679 single stage
+00:23:45.919 i thought we were going to be using
+00:23:47.279 those competitors to
+00:23:49.279 compare against so i just wanted you
+00:23:51.840 your
+00:23:52.400 input on what because i saw uh
+00:23:55.600 some of you have compared with the five
+00:23:57.520 competitors already listed over there
+00:24:00.159 um they may not be relevant for example
+00:24:03.039 cloud bs may not be relevant for
+00:24:04.880 monitor stage at all um so that's what i
+00:24:07.679 wanted to check with you
+00:24:09.200 yeah that's the case i need to go back
+00:24:10.960 and look at the spreadsheet i mean if
+00:24:12.559 the
+00:24:12.960 competitor does not apply to that
+00:24:15.440 particular stage they shouldn't be on
+00:24:16.799 that tab in the spreadsheet
+00:24:18.240 so are you saying that you see
+00:24:19.840 competitors on that
+00:24:21.360 tab for a stage where they don't apply
+00:24:24.880 yeah i think it was copy pasted each
+00:24:27.200 google has the same yeah so each sheet
+00:24:29.200 has
+00:24:30.159 has ado atlassian github jenkins j frog
+00:24:34.000 and cloud piece
+00:24:34.960 right so that may not be relevant for
+00:24:37.919 monitor
+00:24:38.880 for configure it would be a different
+00:24:40.400 set of competitors that we need to
+00:24:42.480 include
+00:24:43.120 which i think we already identified a
+00:24:45.120 while back i think we
+00:24:46.400 identified top three competitors for
+00:24:48.960 every stage
+00:24:50.080 yeah we feared them that's when we
+00:24:51.600 tiered them right tier one tier two tier
+00:24:53.360 three so this
+00:24:54.159 this where we are right now is we're
+00:24:55.840 looking at just tier one competitors
+00:24:57.520 that's probably why i cut and paste them
+00:24:58.960 because those are all tier ones
+00:25:01.039 so we're just focusing on tier one right
+00:25:02.720 now so if they don't apply to that stage
+00:25:04.400 don't worry about it
+00:25:06.080 makes sense so just pick the ones out of
+00:25:08.559 that list that apply to our stage
+00:25:10.960 right i just will just use the tier one
+00:25:14.159 competitors and if they're not
+00:25:16.159 if they don't uh are not applicable then
+00:25:18.880 we don't have to fill out anything for
+00:25:20.559 them
+00:25:20.960 yeah for now but then we'll move to tier
+00:25:22.720 two and tier three
+00:25:24.240 then we'll look at those other okay do
+00:25:26.640 we need to add a line
+00:25:28.080 item for gitlab as well because i i
+00:25:30.640 think that's
+00:25:31.520 the same over here yeah we should
+00:25:34.960 add i think you asked me that before
+00:25:37.520 right
+00:25:38.720 or someone asked me i'm just looking at
+00:25:40.880 it brian out
+00:25:42.080 um yeah we're good yeah because the way
+00:25:46.240 without it you're basically putting all
+00:25:48.960 the things that we're better at
+00:25:50.799 yeah for sure for sure yeah right
+00:25:55.679 ideally when we picked like the 10 to 15
+00:25:57.679 features
+00:25:59.520 though some of those were like get lab
+00:26:01.360 only some of those were like
+00:26:03.200 gitlab didn't have well i thought it was
+00:26:06.400 supposed to be
+00:26:07.279 none of them should be get lab only
+00:26:08.559 right it should be all through the lens
+00:26:09.919 of
+00:26:10.400 yeah yeah exactly yeah it should be like
+00:26:13.039 market lens so
+00:26:14.240 yeah in an ideal world most of them are
+00:26:16.480 like this is what i'm shopping for this
+00:26:18.080 solution
+00:26:19.200 some like some of them might be git lab
+00:26:21.200 only some of them
+00:26:22.480 like competitor only so that it's a
+00:26:25.360 somebody would look at it and be like
+00:26:26.640 this looks
+00:26:27.279 honest and trustworthy and like a a
+00:26:29.600 accurate assessment of the market there
+00:26:31.760 yeah and then yeah i think samia for
+00:26:35.200 this
+00:26:35.679 just to kind of reiterate for this one
+00:26:37.760 we're only doing these five competitors
+00:26:39.440 so we'll do the other
+00:26:40.480 ones in a later stage and then uh
+00:26:44.080 for if if the vendor builds
+00:26:47.279 like bills themselves as a platform
+00:26:50.320 then we should specifically call out
+00:26:52.159 that they have zero
+00:26:53.760 so github builds itself as a platform it
+00:26:57.039 sells itself that way
+00:26:58.880 um same with azure devops same with
+00:27:01.600 jfrog
+00:27:02.720 well they all do for tier one except
+00:27:04.640 jenkins and cloudbees
+00:27:06.320 yeah yeah jenkins clappies does not yeah
+00:27:08.559 but uh what is it you know azure devops
+00:27:11.840 github uh atlassian
+00:27:15.919 and although atlassians we still need to
+00:27:18.000 figure something out there
+00:27:19.360 that as a matter of fact did i go back
+00:27:20.720 and add alaska because i based on
+00:27:22.799 conversation i think we have to do it
+00:27:24.480 i don't think we can leave them all so
+00:27:27.039 did i
+00:27:27.520 i don't i have to look at this question
+00:27:28.880 right it is atlassian is on that sheet
+00:27:31.760 okay yeah
+00:27:32.320 i went back and added them because based
+00:27:33.840 on discussion like my
+00:27:35.919 my i wanted to take them off completely
+00:27:38.799 and just leave them as a partner but
+00:27:40.559 we can't do that so
+00:27:43.760 so yeah so for for those platform you
+00:27:46.720 know
+00:27:47.200 we should call out the fact that they
+00:27:48.480 don't have any monitoring if they have
+00:27:50.080 like 0 out of 15
+00:27:52.080 we should call that out um same with
+00:27:54.399 configure stuff or this
+00:27:55.600 you know any those kind of capabilities
+00:28:01.039 i think if we took that a step further
+00:28:02.399 it'd be good to even describe it in a
+00:28:03.760 way that doesn't just say our product
+00:28:05.279 stage and use like a value-based
+00:28:07.279 description of what monitor and
+00:28:08.640 configure mean because otherwise
+00:28:10.799 we're just no that's not going to do any
+00:28:12.640 good for us
+00:28:14.159 have you guys seen the new infographic
+00:28:15.679 that the uh design team has come up with
+00:28:18.320 not yet oh you haven't no
+00:28:22.000 do we have a link to that quickly
+00:28:24.159 william i don't know
+00:28:25.360 or you can throw it in the uh you can
+00:28:26.880 throw it in the um notes if you find it
+00:28:30.880 all right let's see who can find it
+00:28:32.480 faster
+00:28:34.559 guarantee it not with the amount of tabs
+00:28:36.320 i have open
+00:28:37.760 oh my god that's what i'm like it
+00:28:39.440 probably won't be me
+00:28:41.679 so i this is why i send everything to a
+00:28:45.120 google
+00:28:46.320 uh gmail because the search is so
+00:28:49.679 fast so i literally have a folder where
+00:28:52.559 all of my gitlab pings go
+00:28:55.120 and i can just search for infographic
+00:28:57.679 and well i found it i found it i found
+00:28:59.679 it
+00:29:00.080 who could lick it first
+00:29:03.120 i found it i found it so this is the one
+00:29:06.960 so this there's two
+00:29:07.919 this is the one for the single two
+00:29:09.440 comparison but then for the
+00:29:11.279 um but it's going to look the same but
+00:29:12.960 then here's the one for
+00:29:14.799 um i just put it in chat for you guys
+00:29:18.080 and here's the one for the platform
+00:29:20.399 players
+00:29:23.440 so so we made it we made a couple
+00:29:26.640 decisions
+00:29:27.840 along the way so um
+00:29:31.679 one of the decisions was to just go with
+00:29:33.440 stages
+00:29:34.880 um it would have been like a whole
+00:29:37.919 nother layer of
+00:29:38.880 okay if we don't go with just the get
+00:29:40.480 laps stages the ten stages
+00:29:42.640 what do what do we use um that has to be
+00:29:45.520 determined reconciled all this kind of
+00:29:47.440 stuff
+00:29:48.320 like the you know
+00:29:51.520 we kind of i don't know how long it's
+00:29:53.520 been since we updated
+00:29:54.640 those pages have like not been updated
+00:29:57.840 but we kind of are just trying to move
+00:29:59.520 towards some sort towards some progress
+00:30:01.200 so
+00:30:01.919 uh i concur that maybe configure and
+00:30:05.360 monitor is not
+00:30:06.480 as descriptive as it could be but the
+00:30:09.120 place where it will
+00:30:10.399 so actually i'll share one thing it just
+00:30:13.120 seems like the right time to do this
+00:30:14.559 right
+00:30:15.679 manage is is even less descriptive than
+00:30:17.919 that
+00:30:19.520 so so um the way this is
+00:30:23.200 the way this is getting built is off of
+00:30:24.880 a data model so
+00:30:26.240 um in theory these could change or be
+00:30:29.600 updated
+00:30:30.159 where the underlying data remains the
+00:30:31.919 same right because like we're separating
+00:30:35.600 like presentation layer from data layer
+00:30:39.440 uh so that's it's not going to be as
+00:30:42.559 hard to update in the future as it
+00:30:44.399 currently is where it's a
+00:30:45.600 mess of spaghetti code and it's like
+00:30:47.120 really really difficult to update
+00:30:49.120 and then the other component is then
+00:30:52.559 not in this iteration we need to get
+00:30:54.080 something live but in the next iteration
+00:30:56.640 you'll click on verify
+00:30:58.480 and it'll go down to the list of the 15
+00:31:00.720 features
+00:31:02.000 and that's where you can describe what
+00:31:03.360 the heck of verify is
+00:31:05.120 or what the heck i'm managing okay so we
+00:31:06.880 will have a number two that because i
+00:31:08.000 was about to say you're gonna hate me
+00:31:09.200 for this but like we're
+00:31:10.960 we're we're being cyclical about the
+00:31:13.120 same problem we had
+00:31:14.480 which being the audience coming in and
+00:31:16.159 not knowing anything about these
+00:31:17.600 specific
+00:31:18.080 stages that was one of the big things
+00:31:21.039 it's like okay 15
+00:31:22.960 15 features what what is what are they
+00:31:25.279 why do i care
+00:31:26.320 you know better yeah to say that means
+00:31:29.760 nothing to me looking at this this page
+00:31:31.840 um but quick questions
+00:31:33.279 i'm not gonna be a debbie downer that's
+00:31:34.720 it no we're on top of it
+00:31:36.720 actually if you read the thread i
+00:31:37.760 brought that up but she said we can't do
+00:31:39.279 it like
+00:31:39.919 right now which i understand but small
+00:31:42.559 thing what do you guys think about the
+00:31:44.840 colors
+00:31:46.399 i don't know i usually let the designers
+00:31:48.720 handle that stuff they
+00:31:49.840 they i i like yeah
+00:31:53.760 i i like the fact that
+00:31:57.120 there's no red on there oh you like that
+00:31:59.840 that's what i was going for
+00:32:00.960 you liked it okay it's not it's not
+00:32:03.440 obviously negative
+00:32:04.880 uh so we're saying because it really
+00:32:06.399 does lend itself to
+00:32:08.159 being a comparison more than a
+00:32:09.760 competitive piece because of that
+00:32:11.120 because there's no
+00:32:12.240 you know these folks at 37 are in the
+00:32:14.320 red and they're terrible they just have
+00:32:15.840 less green or we would have less green
+00:32:18.320 so it's not it's not being worse it's
+00:32:20.640 being less good
+00:32:22.000 and i i think that i think that lends
+00:32:24.799 itself to
+00:32:26.880 working with you know your all the
+00:32:28.880 coopetation situations we're talking
+00:32:30.720 about
+00:32:31.440 yeah yeah that's that's the goal is we
+00:32:34.399 want we want to generate a helpful asset
+00:32:36.960 for the industry this is not just like
+00:32:39.279 marketing shill
+00:32:40.240 this should be like a helpful page uh so
+00:32:42.720 it's like yeah the goal is to have a
+00:32:44.080 comparison
+00:32:45.360 comparing devops tools not a you know
+00:32:48.000 this is all of our competitors and why
+00:32:49.440 we're better
+00:32:50.320 yeah um i i i think from a competitive
+00:32:53.360 mindset and for me i'm like let's go
+00:32:54.799 hard
+00:32:55.440 let's put some red on there and that's
+00:32:58.080 just the way i think right
+00:32:59.519 so but i brought it up and that for now
+00:33:01.279 we're going to stick with the green they
+00:33:02.480 recommend it we stick
+00:33:03.519 with the green and uh see how it goes
+00:33:05.440 but i don't know i was feeling the
+00:33:07.120 red and yellow too so it is easy on the
+00:33:10.880 eyes um it's you know there's something
+00:33:12.399 to be said for that so
+00:33:14.480 yeah uh cool well
+00:33:18.080 we're almost up on time but i did want
+00:33:19.919 to share one thing that kind of came in
+00:33:22.720 like basically friday it was like late
+00:33:25.919 thursday for me
+00:33:27.679 so this uh this is another thing a lot a
+00:33:30.799 lot of these things i don't have like a
+00:33:32.080 ton of context on
+00:33:33.760 um i just know like we're just trying to
+00:33:35.840 up our game so like hey let's move fast
+00:33:37.600 and do the best we can do
+00:33:39.919 um so this is a little bit of a
+00:33:41.679 messaging
+00:33:43.200 framework and then the assignment that
+00:33:45.200 was given to me
+00:33:46.559 was to to fill in these boxes here
+00:33:50.080 so uh and then this was the fodder
+00:33:53.760 that i got so there was these ones that
+00:33:57.519 said like
+00:33:58.720 from road map to company vision we are
+00:34:00.640 transparent
+00:34:02.080 and a single source of truth countless
+00:34:03.919 possibilities
+00:34:05.200 honestly i think this one's really like
+00:34:06.480 really pithy and catchy
+00:34:08.399 i really like it i really liked
+00:34:11.520 uh what's the other one that i like that
+00:34:13.040 not everyone does
+00:34:16.560 all in one for everyone so i just uh
+00:34:19.679 i don't know i like i just think so
+00:34:21.040 there's something catchy about that
+00:34:22.719 um but i know that kind of catchy
+00:34:25.918 is not everyone's cup of tea all that's
+00:34:28.079 to say is
+00:34:28.960 um the assignment here was
+00:34:32.000 that i took it was to write a pithy
+00:34:35.040 few words like punchy statement
+00:34:38.560 for each of these three things uh so i
+00:34:41.760 ended up with
+00:34:42.560 a single source of truth countless
+00:34:43.918 possibilities i like that a lot
+00:34:46.239 um this one i went with end to end
+00:34:48.399 control over your software factory
+00:34:50.719 not as pithy but or like not as catchy
+00:34:54.639 but um
+00:34:58.560 so what's the difference between that
+00:35:00.000 slide and the next one that doesn't have
+00:35:02.079 anything under security
+00:35:03.680 this this was the um
+00:35:07.200 honestly so that so when i first got
+00:35:09.280 this it didn't have this
+00:35:12.640 and it didn't have anything under
+00:35:13.760 security so this like what i'd do is
+00:35:15.839 just your iteration of it
+00:35:18.480 yeah this is this is mine this is i just
+00:35:20.800 put here so that i would have like the
+00:35:22.160 original statements like
+00:35:24.480 you know automate nearly anything
+00:35:26.240 collaborate on everything
+00:35:27.839 i kind of like that but i you know
+00:35:31.839 this one i hate scale up speed up test
+00:35:34.480 up i don't think anybody tests up i
+00:35:36.000 think that's really goofy
+00:35:37.280 so you hate it uh this one i love
+00:35:40.400 that for me it's i i love it or i hate
+00:35:42.079 it right um i love how i love how you're
+00:35:44.640 just like
+00:35:45.119 bam uh so anyway
+00:35:48.480 the what i love in just in five minutes
+00:35:51.280 now
+00:35:51.680 and then we can just kind of end the
+00:35:53.200 call is kind of like
+00:35:54.720 um anything that you would change this
+00:35:58.000 out for anything that you would change
+00:35:59.280 this out for and then
+00:36:01.119 actually let's start here this one i
+00:36:04.400 couldn't pick and i'll i'll tell you why
+00:36:07.440 it's because i
+00:36:08.320 i like things to have parody in in their
+00:36:11.680 tone
+00:36:12.640 right so this is maybe like super
+00:36:14.320 nuanced elements of messaging but i hate
+00:36:16.800 it if it's like
+00:36:17.839 a single source of truth that's like a
+00:36:20.079 noun phrase
+00:36:21.440 end to end control that's like a noun
+00:36:25.599 item so you could say with git lab you
+00:36:27.920 get a single source of truth
+00:36:29.760 with git lab you get end to end control
+00:36:32.640 and you can't say with git lab
+00:36:34.560 you get move fast with confidence no but
+00:36:37.760 you can say more speed less risk i like
+00:36:39.920 that one the best i don't like the last
+00:36:41.520 one
+00:36:42.240 okay i agree that's that's why i put
+00:36:44.800 this one at top
+00:36:45.760 was for that parody and then so it
+00:36:48.320 sounds like kind of
+00:36:49.359 y'all's thoughts or that's that's good
+00:36:51.760 as well
+00:36:53.520 uh yeah the only thing it might be
+00:36:54.960 missing but i don't know how we do it
+00:36:56.400 without
+00:36:57.040 over complicating it is
+00:37:00.079 well i guess less risk also implies
+00:37:02.000 higher quality
+00:37:03.520 i guess that kind of bundles the quality
+00:37:05.599 and the security together
+00:37:07.119 so i've talked myself out of not liking
+00:37:09.839 that so yeah
+00:37:10.560 good cindy's last blog post had a really
+00:37:14.000 good
+00:37:14.320 turn of phrase that i stole from forgive
+00:37:16.960 that 14 when she was out it was like
+00:37:19.200 secure the software factory and all the
+00:37:21.760 stuff that you're making in it
+00:37:23.760 she said it really elegantly and so i
+00:37:25.359 just kind of ended deliverables
+00:37:26.960 secure the factory and its deliverables
+00:37:29.680 yeah
+00:37:30.000 i thought it was good to emphasize both
+00:37:31.599 because they mean different things
+00:37:34.839 yeah yeah so you could say
+00:37:37.839 um secure and control your software
+00:37:40.480 factory and its deliverables
+00:37:42.400 maybe that would encompass both
+00:37:48.839 thoughts
+00:37:50.720 i'm i'm not a big fan of the it's
+00:37:53.760 it's deliverables is there can we say
+00:37:56.079 like
+00:37:57.520 your software factory in your software
+00:37:59.359 or your your
+00:38:00.880 sub or in your product
+00:38:04.400 sounds like car manufacturer you can say
+00:38:07.520 ip here but it just doesn't sound right
+00:38:09.520 and that's always it's always shorthand
+00:38:12.480 yeah
+00:38:14.079 i like this one better
+00:38:18.960 yeah i think i do too but but i
+00:38:22.000 appreciate the thought
+00:38:23.359 brian uh
+00:38:26.400 and then the last thing i'll say is so
+00:38:29.119 this is
+00:38:29.599 this is my attempt to channel my inner
+00:38:32.000 ash withers
+00:38:33.599 um i think ash is like super good at
+00:38:37.359 just again just like the catchy or like
+00:38:40.240 the turn of phrase element to it
+00:38:42.880 um and so like this kind of idea like
+00:38:45.440 single source of truth
+00:38:46.720 countless possibilities or all-in-one
+00:38:49.359 for everyone
+00:38:50.480 there's something catchy about this so
+00:38:51.920 so here i was trying to like
+00:38:53.839 envision what is it that we actually
+00:38:55.760 give you with this philosophy it's like
+00:38:57.680 it's velocity with confidence is what is
+00:39:00.240 what you get
+00:39:01.599 um i like your move fast with confidence
+00:39:04.720 better than increase speed and stay on
+00:39:06.480 track
+00:39:07.839 yeah so i was trying to i was thinking
+00:39:09.359 of like you know
+00:39:11.280 if you're like if you're in a race car
+00:39:14.160 and like
+00:39:14.880 you go like super super fast like let's
+00:39:16.640 say you're in the bike race right
+00:39:18.240 and you're going so fast and somebody
+00:39:19.680 holds out the sign and then like half of
+00:39:22.000 the bike race collapses
+00:39:24.800 right so it's almost kind of like you
+00:39:27.839 can
+00:39:28.160 you can keep going like faster and
+00:39:30.000 faster and faster
+00:39:31.200 and if somebody like jumps out with a
+00:39:33.200 sign in the middle of the racetrack
+00:39:35.200 you're not going to get tripped up by it
+00:39:37.040 because get labs
+00:39:38.320 you know it's testing is going to catch
+00:39:39.839 that security's going to catch that um
+00:39:42.000 all of those elements
+00:39:43.760 that allow you to move faster but to do
+00:39:45.599 so with confidence because otherwise
+00:39:46.800 you're like the faster you go then it
+00:39:48.079 gets more dangerous
+00:39:50.000 so trying to encapsulate that in this
+00:39:51.440 like that was kind of where i was like
+00:39:52.800 stay on track but i didn't like it
+00:39:54.560 either
+00:39:55.359 did you just open the door for a nascar
+00:39:57.839 partnership
+00:39:59.680 hey nascar goes fast and turns left
+00:40:02.560 because of get loud
+00:40:06.960 so you're our new ricky audience
+00:40:09.040 demographic
+00:40:10.480 so yeah so i don't think i like that one
+00:40:12.000 and then i think between these two
+00:40:14.000 i like move fast with confidence but i
+00:40:16.000 don't like the
+00:40:17.359 the verbiage of it because it doesn't
+00:40:18.720 have parody so that's where i think
+00:40:21.280 do you want to add maybe we can add high
+00:40:24.560 confidence or more confidence at the end
+00:40:26.560 of your first statement so it kind of
+00:40:28.560 combines
+00:40:30.079 all of it so more speed less risk high
+00:40:33.040 confidence
+00:40:34.640 is kind of overused anyway like i see a
+00:40:36.800 lot of competitors and vendors using it
+00:40:38.640 i really like the first one just more
+00:40:40.000 speed
+00:40:40.480 less wrist bam no trade-offs you know
+00:40:42.880 just that's how it is
+00:40:45.920 ooh no trade-offs that's one of my
+00:40:49.359 go-to's i love that one
+00:40:52.319 this this gets into the uh no trade-offs
+00:40:56.640 the engine the engineer in me says
+00:40:58.960 there's never no trade-offs
+00:41:01.040 that's like saying like 100 secure
+00:41:04.000 complex this is why we always say
+00:41:05.680 mitigate right we always say
+00:41:07.599 risk or less risk you never say no
+00:41:10.079 that's everything
+00:41:10.800 with messaging right i mean not
+00:41:12.240 everything you know
+00:41:13.920 how about just more speed less risk with
+00:41:18.839 confidence
+00:41:22.319 yeah more speed
+00:41:28.240 the ricky bobby and me really did like
+00:41:29.920 the no trade off so parker
+00:41:31.680 yeah oh is that was that from uh
+00:41:34.960 no but it could have been it's something
+00:41:36.400 ricky bobby would have said if anyone
+00:41:38.000 hasn't seen talladega nights they should
+00:41:40.000 that's the homework for this weekend
+00:41:43.440 we talk about it on monday in our little
+00:41:45.359 social report i often say thank you
+00:41:49.040 little eight pound five ounce baby juice
+00:41:51.359 with the golden diapers
+00:41:53.119 i say that so often that i just think
+00:41:54.880 everybody has seen talladega nights but
+00:41:56.560 then i realized that people that haven't
+00:41:58.319 are like william's really weird and then
+00:42:01.359 next week we'll watch step brothers
+00:42:03.920 that's another great one so much room
+00:42:05.680 for activities
+00:42:08.640 okay um i'm gonna go with uh more speed
+00:42:12.079 less risk
+00:42:13.280 than um i think this is due at the end
+00:42:16.720 of the day so
+00:42:17.680 any additional thoughts i'm actually
+00:42:20.160 going to untag
+00:42:22.160 me it's strong all those are you know
+00:42:24.880 cool
+00:42:25.599 those are good awesome well uh this was
+00:42:28.720 kind of fun to do a little bit of like
+00:42:30.560 working together session and uh
+00:42:33.839 keep a little dazzle keep it rocking
+00:42:38.400 good to see everybody see you soon

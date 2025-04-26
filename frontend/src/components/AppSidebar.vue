@@ -80,6 +80,19 @@ const handleSignOut = async () => {
 <template>
   <Sidebar>
     <SidebarContent>
+      <!-- Logo -->
+      <div class="p-4 border-b">
+        <div 
+          class="cursor-pointer" 
+          @click="navigateTo('/dashboard')"
+        >
+          <h1 class="text-xl font-bold flex items-center">
+            <span class="text-primary">Not</span>ulen
+          </h1>
+          <p class="text-xs text-muted-foreground">Meeting notes made simple</p>
+        </div>
+      </div>
+
       <SidebarGroup>
         <SidebarGroupLabel>Application</SidebarGroupLabel>
         <SidebarGroupContent>
