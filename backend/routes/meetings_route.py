@@ -12,6 +12,7 @@ supabase = SupabaseController()
 # Pydantic models for request/response
 class MeetingBase(BaseModel):
     group_id: uuid.UUID
+    name: str
     meeting_datetime: datetime
     transcript: Optional[str] = None
     summary: Optional[Dict[str, Any]] = None
@@ -20,6 +21,7 @@ class MeetingCreate(MeetingBase):
     pass
 
 class MeetingUpdate(BaseModel):
+    name: Optional[str] = None
     meeting_datetime: Optional[datetime] = None
     transcript: Optional[str] = None
     summary: Optional[Dict[str, Any]] = None
@@ -51,6 +53,7 @@ async def create_meeting(meeting: MeetingCreate, user_id: uuid.UUID):
         # Create the meeting
         meeting_data = {
             "group_id": str(meeting.group_id),
+            "name": meeting.name,
             "meeting_datetime": meeting.meeting_datetime.isoformat(),
             "transcript": meeting.transcript,
             "summary": meeting.summary
@@ -162,6 +165,8 @@ async def update_meeting(meeting_id: uuid.UUID, meeting: MeetingUpdate, user_id:
         
         # Prepare update data (only non-None fields)
         update_data = {}
+        if meeting.name is not None:
+            update_data["name"] = meeting.name
         if meeting.meeting_datetime is not None:
             update_data["meeting_datetime"] = meeting.meeting_datetime.isoformat()
         if meeting.transcript is not None:

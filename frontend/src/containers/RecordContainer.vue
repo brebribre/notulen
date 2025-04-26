@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useAudioFiles } from '@/hooks/useAudioFiles'
+import { useMeetings } from '@/hooks/useMeetings'
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import {
   Dialog,
@@ -16,9 +17,13 @@ import {
 
 const route = useRoute()
 const router = useRouter()
-const { uploadAudioFile, loading } = useAudioFiles()
+const { uploadAudioFile, loading: uploadLoading } = useAudioFiles()
+const { fetchMeeting, updateMeeting, loading: meetingLoading } = useMeetings()
 
 const groupId = route.params.groupId as string
+const meetingId = computed(() => route.query.meetingId as string | undefined)
+const loading = computed(() => uploadLoading.value || meetingLoading.value)
+
 const mediaRecorder = ref<MediaRecorder | null>(null)
 const recordingStatus = ref<'inactive' | 'recording' | 'paused'>('inactive')
 const audioChunks = ref<BlobPart[]>([])
@@ -31,6 +36,7 @@ const errorMessage = ref<string | null>(null)
 const showSaveDialog = ref(false)
 const meetingName = ref('')
 const meetingDate = ref(new Date().toISOString())
+const meeting = ref<any>(null)
 
 // Request microphone access and set up recorder
 const setupRecorder = async () => {
@@ -55,6 +61,23 @@ const setupRecorder = async () => {
   } catch (err) {
     console.error('Error accessing microphone:', err)
     errorMessage.value = 'Could not access microphone. Please check permissions.'
+  }
+}
+
+// Load meeting data if meetingId is provided
+const loadMeetingData = async () => {
+  if (meetingId.value) {
+    try {
+      const meetingData = await fetchMeeting(meetingId.value)
+      if (meetingData) {
+        meeting.value = meetingData
+        meetingName.value = meetingData.name
+        meetingDate.value = meetingData.meeting_datetime
+      }
+    } catch (err) {
+      console.error('Error loading meeting data:', err)
+      errorMessage.value = 'Failed to load meeting data.'
+    }
   }
 }
 
@@ -103,10 +126,24 @@ const formatTime = (seconds: number) => {
 
 // Open save dialog
 const openSaveDialog = () => {
-  // Set default name based on date
-  const now = new Date()
-  meetingName.value = `Meeting ${now.toLocaleDateString()}`
-  meetingDate.value = now.toISOString()
+  // Use existing meeting name if available
+  if (!meetingName.value && meeting.value) {
+    meetingName.value = meeting.value.name
+  }
+  
+  // Otherwise set default name based on date
+  if (!meetingName.value) {
+    const now = new Date()
+    meetingName.value = `Meeting ${now.toLocaleDateString()}`
+  }
+  
+  // Use existing meeting date if available
+  if (meeting.value) {
+    meetingDate.value = meeting.value.meeting_datetime
+  } else {
+    meetingDate.value = new Date().toISOString()
+  }
+  
   showSaveDialog.value = true
 }
 
@@ -124,7 +161,15 @@ const saveRecording = async () => {
     const file = new File([blob], filename, { type: 'audio/wav' })
     
     // Upload to Supabase using the hook
-    await uploadAudioFile(file, groupId, meetingDate.value)
+    await uploadAudioFile(file, groupId, meetingDate.value, meetingId.value)
+    
+    // Update meeting details if this is an existing meeting
+    if (meetingId.value && meeting.value) {
+      await updateMeeting(meetingId.value, {
+        // Only update the fields we want to change
+        name: meetingName.value
+      })
+    }
     
     // Navigate back to details page
     router.push(`/groups/${groupId}`)
@@ -141,8 +186,11 @@ const goBack = () => {
 }
 
 // Set up recorder on mount
-onMounted(() => {
-  setupRecorder()
+onMounted(async () => {
+  await setupRecorder()
+  if (meetingId.value) {
+    await loadMeetingData()
+  }
 })
 
 // Clean up on unmount
@@ -158,7 +206,9 @@ onUnmounted(() => {
   <div class="p-4 space-y-6">
     <!-- Header -->
     <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Record Meeting</h1>
+      <h1 class="text-2xl font-bold">
+        {{ meeting ? `Record Meeting: ${meeting.name}` : 'Record Meeting' }}
+      </h1>
       <Button variant="outline" @click="goBack">Cancel</Button>
     </div>
     

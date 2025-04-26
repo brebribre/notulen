@@ -172,7 +172,8 @@ export function useAudioFiles() {
   const uploadAudioFile = async (
     file: File, 
     groupId: string, 
-    meetingDatetime?: string
+    meetingDatetime?: string,
+    meetingId?: string
   ) => {
     loading.value = true
     error.value = null
@@ -184,6 +185,10 @@ export function useAudioFiles() {
       
       if (meetingDatetime) {
         formData.append('meeting_datetime', meetingDatetime)
+      }
+      
+      if (meetingId) {
+        formData.append('meeting_id', meetingId)
       }
       
       const response = await fetch(`${API_URL}/upload-audio`, {

@@ -17,6 +17,7 @@ class AudioFileBase(BaseModel):
     mimetype: Optional[str] = None
     size: Optional[int] = None
     meeting_datetime: Optional[datetime] = None
+    meeting_id: Optional[uuid.UUID] = None
 
 class AudioFileCreate(AudioFileBase):
     group_id: uuid.UUID
@@ -199,7 +200,8 @@ async def delete_audio_file(file_id: uuid.UUID):
 async def upload_audio_file(
     file: UploadFile = File(...),
     group_id: str = Form(...),
-    meeting_datetime: Optional[str] = Form(None)
+    meeting_datetime: Optional[str] = Form(None),
+    meeting_id: Optional[str] = Form(None)
 ):
     """
     Upload an audio file to storage and create a record in the database.
@@ -234,6 +236,10 @@ async def upload_audio_file(
             "size": file_size,
             "meeting_datetime": meeting_datetime
         }
+        
+        # Add meeting_id if provided
+        if meeting_id:
+            file_data["meeting_id"] = meeting_id
         
         result = supabase.insert("audio_files", file_data)
         
