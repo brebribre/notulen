@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/sheet'
 
 // Configure marked for safe output
-marked.setOptions({
+(marked as any).setOptions({
   gfm: true, // GitHub flavored markdown
   breaks: true, // Convert \n to <br>
   sanitize: false // Don't sanitize, but escape HTML in the content
@@ -63,7 +63,7 @@ const isSendingMessage = ref(false)
 
 // Convert markdown to HTML
 const renderMarkdown = (text: string): string => {
-  return marked(text)
+  return (marked as any)(text)
 }
 
 // Fetch group data on mount

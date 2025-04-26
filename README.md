@@ -78,6 +78,16 @@ SUPABASE_URL=your_supabase_project_url
 SUPABASE_KEY=your_supabase_service_role_key
 ```
 
+2. Create a `.env` file in the workers directory:
+```
+# OpenAI API Key
+OPENAI_API_KEY=your_openai_api_key
+
+# Supabase Configuration
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_service_role_key
+```
+
 ### Installation
 
 1. Clone the repository:
