@@ -125,7 +125,7 @@ const navigateToDashboard = () => {
     
     <footer class="py-8 px-6 bg-muted text-center">
       <p class="text-sm text-muted-foreground">
-        © 2023 Notulen. All rights reserved.
+        © 2025 Notulen. All rights reserved.
       </p>
     </footer>
   </div>
