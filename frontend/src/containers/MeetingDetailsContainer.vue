@@ -339,9 +339,6 @@ onUnmounted(() => {
           </div>
         </div>
         
-        <div class="text-sm text-muted-foreground">
-          Created: {{ formatDate(new Date(currentMeeting.created_at), 'PPP') }}
-        </div>
         
         <Separator />
       </div>
