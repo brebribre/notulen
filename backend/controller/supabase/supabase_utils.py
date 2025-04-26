@@ -1,5 +1,5 @@
 import os
-from supabase import create_client, Client
+from supabase import create_client
 from dotenv import load_dotenv
 from typing import Dict, List, Any, Optional, Union
 
