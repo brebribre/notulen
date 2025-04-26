@@ -9,6 +9,7 @@ import HomeView from '@/views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import GroupMainContainer from '@/containers/GroupMainContainer.vue'
 import RecordContainer from '@/containers/RecordContainer.vue'
+import MeetingDetailsContainer from '@/containers/MeetingDetailsContainer.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -52,6 +53,12 @@ const router = createRouter({
             path: '/groups/:groupId/record',
             name: 'group-record',
             component: RecordContainer,
+            meta: { requiresAuth: true }
+          },
+          {
+            path: '/groups/:groupId/meetings/:meetingId',
+            name: 'meeting-details',
+            component: MeetingDetailsContainer,
             meta: { requiresAuth: true }
           }
       ]
