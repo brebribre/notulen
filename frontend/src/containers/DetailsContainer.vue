@@ -7,7 +7,6 @@ import { formatDate } from '@/lib/utils'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableEmpty,
   TableHead,
@@ -64,11 +63,6 @@ const createError = ref('')
 const deleteDialogOpen = ref(false)
 const meetingToDelete = ref<{ id: string; name: string } | null>(null)
 const isDeleting = ref(false)
-
-// Navigate to record page
-const navigateToRecord = () => {
-  router.push(`/groups/${props.groupId}/record`)
-}
 
 // Navigate to meeting details
 const navigateToMeeting = (meetingId: string) => {

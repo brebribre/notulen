@@ -6,12 +6,11 @@ import { useAudioFiles } from '@/hooks/useAudioFiles'
 import { formatDate } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Loader2, FileAudio, Calendar, Clock, Download, Pencil, Trash } from 'lucide-vue-next'
+import { Loader2, FileAudio, Calendar, Clock, Download } from 'lucide-vue-next'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'

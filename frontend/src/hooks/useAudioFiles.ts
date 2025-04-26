@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 interface AudioFile {
@@ -15,7 +15,7 @@ interface AudioFile {
 }
 
 export function useAudioFiles() {
-  const authStore = useAuthStore()
+  //const authStore = useAuthStore()
   const audioFiles = ref<AudioFile[]>([])
   const currentFile = ref<AudioFile | null>(null)
   const loading = ref(false)
