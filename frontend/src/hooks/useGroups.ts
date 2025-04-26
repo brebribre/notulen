@@ -279,6 +279,32 @@ export function useGroups() {
     return removeUserFromGroup(groupId, userId.value)
   }
 
+  // Search for users to add to a group
+  const searchUsers = async (searchTerm: string) => {
+    error.value = null
+    
+    try {
+      if (!searchTerm || searchTerm.length < 2) {
+        return []
+      }
+      
+      console.log(`Searching for users with term: ${searchTerm}`);
+      const data = await apiRequest<any[]>(
+        `${API_URL}/search-users`, 
+        'GET', 
+        undefined, 
+        { search: searchTerm }
+      )
+      
+      console.log(`Search results:`, data);
+      return data || []
+    } catch (err: any) {
+      console.error('Error searching users:', err)
+      error.value = err.message || 'Failed to search users'
+      return []
+    }
+  }
+
   return {
     groups,
     currentGroup,
@@ -295,6 +321,7 @@ export function useGroups() {
     fetchGroupMembers,
     addUserToGroup,
     removeUserFromGroup,
-    leaveGroup
+    leaveGroup,
+    searchUsers
   }
 }
