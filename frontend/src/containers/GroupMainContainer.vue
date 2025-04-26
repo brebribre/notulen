@@ -5,9 +5,10 @@ import { useGroups } from '@/hooks/useGroups'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Input } from '@/components/ui/input'
-import { Users, Loader2, Settings, Pencil } from 'lucide-vue-next'
+import { Users, Loader2, Settings, Pencil, FileAudio } from 'lucide-vue-next'
 import MembersContainer from '@/containers/MembersContainer.vue'
 import DetailsContainer from '@/containers/DetailsContainer.vue'
+import AudioContainer from '@/containers/AudioContainer.vue'
 
 const route = useRoute()
 const groupId = computed(() => route.params.groupId as string)
@@ -187,6 +188,19 @@ const handleError = (errorMessage: string) => {
             Members
           </div>
         </button>
+        
+        <button 
+          @click="activeSection = 'audio'" 
+          class="px-4 py-2 border-b-2 font-medium text-sm"
+          :class="activeSection === 'audio' 
+            ? 'border-primary text-primary' 
+            : 'border-transparent text-muted-foreground hover:text-foreground'"
+        >
+          <div class="flex items-center">
+            <FileAudio class="mr-1 h-4 w-4" />
+            Audio
+          </div>
+        </button>
       </div>
       
       <!-- Details Section -->
@@ -199,6 +213,13 @@ const handleError = (errorMessage: string) => {
       <!-- Members Section -->
       <MembersContainer 
         v-if="activeSection === 'members'"
+        :groupId="groupId"
+        @error="handleError"
+      />
+      
+      <!-- Audio Section -->
+      <AudioContainer
+        v-if="activeSection === 'audio'"
         :groupId="groupId"
         @error="handleError"
       />

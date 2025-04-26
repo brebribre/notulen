@@ -19,7 +19,7 @@ class AudioFileBase(BaseModel):
     meeting_datetime: Optional[datetime] = None
 
 class AudioFileCreate(AudioFileBase):
-    pass
+    group_id: uuid.UUID
 
 class AudioFileUpdate(BaseModel):
     original_filename: Optional[str] = None
@@ -27,7 +27,7 @@ class AudioFileUpdate(BaseModel):
 
 class AudioFile(AudioFileBase):
     id: uuid.UUID
-    user_id: uuid.UUID
+    group_id: uuid.UUID
     created_at: datetime
 
     class Config:
@@ -35,14 +35,14 @@ class AudioFile(AudioFileBase):
 
 # CRUD Routes
 @router.post("/audio-files", response_model=AudioFile)
-async def create_audio_file(audio_file: AudioFileCreate, user_id: uuid.UUID):
+async def create_audio_file(audio_file: AudioFileCreate):
     """
-    Create a new audio file record.
+    Create a new audio file record associated with a group.
     """
     try:
         # Create the audio file record
         file_data = {
-            "user_id": str(user_id),
+            "group_id": str(audio_file.group_id),
             "bucket_name": audio_file.bucket_name,
             "path": audio_file.path,
             "original_filename": audio_file.original_filename,
@@ -63,19 +63,19 @@ async def create_audio_file(audio_file: AudioFileCreate, user_id: uuid.UUID):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/audio-files", response_model=List[AudioFile])
-async def get_audio_files(user_id: Optional[uuid.UUID] = None):
+async def get_audio_files(group_id: uuid.UUID):
     """
-    Get all audio files or filter by user_id if provided.
+    Get all audio files for a specific group.
     """
     try:
-        filters = {}
-        if user_id:
-            filters["user_id"] = str(user_id)
+        if not group_id:
+            raise HTTPException(status_code=400, detail="Group ID is required")
         
+        # Get audio files for the group
         result = supabase.select(
             "audio_files", 
             "*", 
-            filters=filters,
+            filters={"group_id": str(group_id)},
             order_by={"created_at": "desc"}
         )
         
@@ -91,38 +91,37 @@ async def get_audio_file(file_id: uuid.UUID):
     Get a specific audio file by ID.
     """
     try:
-        result = supabase.select(
+        # Get the file information
+        file_info = supabase.select(
             "audio_files",
             "*",
             filters={"id": str(file_id)}
         )
         
-        if not result or not result[0]:
+        if not file_info or not file_info[0]:
             raise HTTPException(status_code=404, detail="Audio file not found")
         
-        return result[0]
-    except HTTPException as e:
-        raise e
+        return file_info[0]
     except Exception as e:
         print(f"Error in get_audio_file: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/audio-files/{file_id}", response_model=AudioFile)
-async def update_audio_file(file_id: uuid.UUID, audio_file: AudioFileUpdate, user_id: uuid.UUID):
+async def update_audio_file(file_id: uuid.UUID, audio_file: AudioFileUpdate):
     """
-    Update an audio file record.
+    Update an audio file's metadata.
     """
     try:
-        # Check if user owns this file
-        file_check = supabase.select(
+        # Get the file information
+        file_info = supabase.select(
             "audio_files",
             "*",
-            filters={"id": str(file_id), "user_id": str(user_id)}
+            filters={"id": str(file_id)}
         )
         
-        if not file_check:
-            raise HTTPException(status_code=403, detail="You don't have permission to update this file")
+        if not file_info or not file_info[0]:
+            raise HTTPException(status_code=404, detail="Audio file not found")
         
         # Prepare update data (only non-None fields)
         update_data = {}
@@ -133,8 +132,7 @@ async def update_audio_file(file_id: uuid.UUID, audio_file: AudioFileUpdate, use
         
         if not update_data:
             # Nothing to update
-            result = supabase.select("audio_files", "*", filters={"id": str(file_id)})
-            return result[0] if result else None
+            return file_info[0]
         
         # Update the audio file record
         result = supabase.update(
@@ -147,35 +145,31 @@ async def update_audio_file(file_id: uuid.UUID, audio_file: AudioFileUpdate, use
             raise HTTPException(status_code=404, detail="Audio file not found")
         
         return result[0]
-    except HTTPException as e:
-        raise e
     except Exception as e:
         print(f"Error in update_audio_file: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/audio-files/{file_id}")
-async def delete_audio_file(file_id: uuid.UUID, user_id: uuid.UUID):
+async def delete_audio_file(file_id: uuid.UUID):
     """
     Delete an audio file record and the actual file from storage.
     """
     try:
-        # Check if user owns this file
-        file_check = supabase.select(
+        # Get the file information
+        file_info = supabase.select(
             "audio_files",
             "*",
-            filters={"id": str(file_id), "user_id": str(user_id)}
+            filters={"id": str(file_id)}
         )
         
-        if not file_check or not file_check[0]:
-            raise HTTPException(status_code=403, detail="You don't have permission to delete this file")
-        
-        file_info = file_check[0]
+        if not file_info or not file_info[0]:
+            raise HTTPException(status_code=404, detail="Audio file not found")
         
         # Delete the file from storage
         try:
-            storage_path = file_info.get("path")
-            bucket_name = file_info.get("bucket_name")
+            storage_path = file_info[0].get("path")
+            bucket_name = file_info[0].get("bucket_name")
             
             # Remove the file from storage
             supabase.client.storage.from_(bucket_name).remove([storage_path])
@@ -193,8 +187,6 @@ async def delete_audio_file(file_id: uuid.UUID, user_id: uuid.UUID):
             raise HTTPException(status_code=404, detail="Audio file record not found")
         
         return {"success": True, "message": "Audio file deleted successfully"}
-    except HTTPException as e:
-        raise e
     except Exception as e:
         print(f"Error in delete_audio_file: {str(e)}")
         print(traceback.format_exc())
@@ -204,7 +196,7 @@ async def delete_audio_file(file_id: uuid.UUID, user_id: uuid.UUID):
 @router.post("/upload-audio", response_model=AudioFile)
 async def upload_audio_file(
     file: UploadFile = File(...),
-    user_id: str = Form(...),
+    group_id: str = Form(...),
     meeting_datetime: Optional[str] = Form(None)
 ):
     """
@@ -221,7 +213,7 @@ async def upload_audio_file(
         
         # Create a unique path for the file
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        unique_filename = f"{user_id}_{timestamp}_{original_filename}"
+        unique_filename = f"group_{group_id}_{timestamp}_{original_filename}"
         bucket_name = "audio-files"
         
         # Upload to Supabase Storage
@@ -232,7 +224,7 @@ async def upload_audio_file(
         
         # Create database record
         file_data = {
-            "user_id": user_id,
+            "group_id": group_id,
             "bucket_name": bucket_name,
             "path": unique_filename,
             "original_filename": original_filename,
@@ -259,36 +251,31 @@ async def upload_audio_file(
 
 # Get download URL
 @router.get("/audio-files/{file_id}/download-url")
-async def get_download_url(file_id: uuid.UUID, user_id: uuid.UUID):
+async def get_download_url(file_id: uuid.UUID):
     """
     Get a download URL for an audio file.
     """
     try:
-        # Check if user has access to this file
-        file_check = supabase.select(
+        # Get the file information
+        file_info = supabase.select(
             "audio_files",
             "*",
             filters={"id": str(file_id)}
         )
         
-        if not file_check or not file_check[0]:
+        if not file_info or not file_info[0]:
             raise HTTPException(status_code=404, detail="Audio file not found")
         
-        file_info = file_check[0]
+        bucket_name = file_info[0].get("bucket_name")
+        path = file_info[0].get("path")
         
-        # Check if the user is the owner
-        if str(file_info.get("user_id")) != str(user_id):
-            raise HTTPException(status_code=403, detail="You don't have permission to access this file")
+        # Generate a signed URL (with expiration time of 1 hour)
+        url_result = supabase.get_signed_url(bucket_name, path, 3600)
         
-        bucket_name = file_info.get("bucket_name")
-        path = file_info.get("path")
-        
-        # Generate a public URL (you can set expiry if needed)
-        url = supabase.client.storage.from_(bucket_name).get_public_url(path)
-        
-        return {"url": url}
-    except HTTPException as e:
-        raise e
+        if not url_result or "signedURL" not in url_result:
+            raise HTTPException(status_code=500, detail="Failed to generate signed URL")
+            
+        return {"url": url_result["signedURL"]}
     except Exception as e:
         print(f"Error in get_download_url: {str(e)}")
         print(traceback.format_exc())
