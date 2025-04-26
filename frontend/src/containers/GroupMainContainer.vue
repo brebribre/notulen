@@ -10,14 +10,21 @@ import { Users, Loader2, Settings, Pencil, FileAudio, Bot, Send, X } from 'lucid
 import MembersContainer from '@/containers/MembersContainer.vue'
 import DetailsContainer from '@/containers/DetailsContainer.vue'
 import AudioContainer from '@/containers/AudioContainer.vue'
+import { marked } from 'marked'
 import { 
   Sheet, 
   SheetContent, 
   SheetDescription, 
-  SheetFooter, 
   SheetHeader, 
   SheetTitle 
 } from '@/components/ui/sheet'
+
+// Configure marked for safe output
+marked.setOptions({
+  gfm: true, // GitHub flavored markdown
+  breaks: true, // Convert \n to <br>
+  sanitize: false // Don't sanitize, but escape HTML in the content
+})
 
 const route = useRoute()
 const groupId = computed(() => route.params.groupId as string)
@@ -54,6 +61,11 @@ const chatMessages = ref([
   { role: 'system', content: 'Hello! I am your group assistant. How can I help you today?' }
 ])
 const isSendingMessage = ref(false)
+
+// Convert markdown to HTML
+const renderMarkdown = (text: string): string => {
+  return marked(text)
+}
 
 // Fetch group data on mount
 onMounted(async () => {
@@ -359,7 +371,18 @@ const clearChat = () => {
                     : 'bg-muted'
                 ]"
               >
-                <p class="text-sm whitespace-pre-line">{{ message.content }}</p>
+                <!-- Use v-html for system messages to render markdown -->
+                <p 
+                  v-if="message.role === 'user'"
+                  class="text-sm whitespace-pre-line"
+                >
+                  {{ message.content }}
+                </p>
+                <div 
+                  v-else
+                  class="text-sm prose prose-sm dark:prose-invert markdown-content"
+                  v-html="renderMarkdown(message.content)"
+                ></div>
               </div>
             </div>
             
@@ -399,3 +422,109 @@ const clearChat = () => {
     </Sheet>
   </div>
 </template>
+
+<style scoped>
+.markdown-content :deep(p) {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content :deep(ul),
+.markdown-content :deep(ol) {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content :deep(h1),
+.markdown-content :deep(h2),
+.markdown-content :deep(h3),
+.markdown-content :deep(h4) {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.markdown-content :deep(h1) {
+  font-size: 1.25rem;
+}
+
+.markdown-content :deep(h2) {
+  font-size: 1.15rem;
+}
+
+.markdown-content :deep(h3) {
+  font-size: 1.05rem;
+}
+
+.markdown-content :deep(code) {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+.markdown-content :deep(pre) {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content :deep(pre code) {
+  background-color: transparent;
+  padding: 0;
+}
+
+.markdown-content :deep(blockquote) {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 0.5rem;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content :deep(a) {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+.markdown-content :deep(table) {
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.markdown-content :deep(th),
+.markdown-content :deep(td) {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+}
+
+.markdown-content :deep(img) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Dark mode adjustments */
+:global(.dark) .markdown-content :deep(code) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .markdown-content :deep(pre) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .markdown-content :deep(blockquote) {
+  border-left-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+:global(.dark) .markdown-content :deep(th),
+:global(.dark) .markdown-content :deep(td) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .markdown-content :deep(a) {
+  color: #38bdf8;
+}
+</style>
