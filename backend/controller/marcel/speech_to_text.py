@@ -61,7 +61,7 @@ class SpeechToText:
             )
             return transcription.text
         else:
-            chunk_duration_ms = 1400 * 1000  # 1400 seconds to milliseconds
+            chunk_duration_ms = 120 * 1000  # 300 seconds = 5 minutes
 
             chunks = []
             for i in range(0, len(audio), chunk_duration_ms):
@@ -72,6 +72,8 @@ class SpeechToText:
                 buffer.seek(0)
                 chunks.append(buffer)
 
+            print(f"Number of chunks: {len(chunks)}")
+            
             def transcribe(chunk_io):
                 chunk_io.seek(0)
                 transcription = self.client.audio.transcriptions.create(
