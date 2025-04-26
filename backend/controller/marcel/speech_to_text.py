@@ -19,7 +19,8 @@ class SpeechToText:
             raise ValueError("OpenAI API key is required.")
         self.client = OpenAI(api_key=api_key)
 
-    def speech_to_text(self, audio_path):
+    def speech_to_text(self, audio_path: str):
+        # Get the path to ffmpeg and ffprobe binaries
         ffmpeg_path = os.path.join(os.path.dirname(__file__), "ffmpeg")
         ffprobe_path = os.path.join(os.path.dirname(__file__), "ffprobe")
 
@@ -46,7 +47,11 @@ class SpeechToText:
         if not (os.path.isfile(ffprobe_path) and os.access(ffprobe_path, os.X_OK)):
             raise FileNotFoundError(f"FFprobe binary not found or not executable at {ffprobe_path}. Please ensure it exists and is executable.")
         
-        audio = AudioSegment.from_file(audio_path)
+        with open(audio_path, "rb") as audio_file:
+            audio_file_bytes = io.BytesIO(audio_file.read())
+            audio_file_bytes.name = os.path.basename(audio_path)
+            audio_file_bytes.seek(0)
+        audio = AudioSegment.from_file(audio_file_bytes)
         
         if len(audio) <= 60000:
             buffer = io.BytesIO()
@@ -68,7 +73,7 @@ class SpeechToText:
                 chunk = audio[i:i + chunk_duration_ms]
                 buffer = io.BytesIO()
                 chunk.export(buffer, format="wav", codec="pcm_s16le")
-                buffer.name = "audio.wav"  # <--- Add this!
+                buffer.name = "audio.wav"
                 buffer.seek(0)
                 chunks.append(buffer)
 

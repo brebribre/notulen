@@ -16,7 +16,7 @@ audio_paths= [
 # Select the audio file to transcribe
 audio_path = audio_paths[2]
 
-# Open the audio file and transcribe
-with open(audio_path, "rb") as audio_file:
-    full_transcription = transcriber.speech_to_text(audio_file)
-    print(full_transcription)
+# Sample usage of the SpeechToText class
+# Transcribe the audio file by path
+full_transcription = transcriber.speech_to_text(audio_path)
+print(full_transcription)
