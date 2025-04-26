@@ -61,7 +61,7 @@ class SpeechToText:
             )
             return transcription.text
         else:
-            chunk_duration_ms = 120 * 1000  # 300 seconds = 5 minutes
+            chunk_duration_ms = 120 * 1000  # 120 seconds = 2 minutes
 
             chunks = []
             for i in range(0, len(audio), chunk_duration_ms):
@@ -90,5 +90,4 @@ class SpeechToText:
                     results.append(future.result())
 
             full_text = " ".join(results)
-            print(full_text)
             return full_text
