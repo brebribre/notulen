@@ -15,9 +15,10 @@ class AsyncTranscriptSummarizer(TranscriptSummarizer):
                 model=self.model,
                 messages=[{"role": "system",
                         "content": "You are a world-class meetings assistant."
-                        "Create a concise summary of the meeting, including action items and participants. Never hallucinate your data. if the transcript is not long enough, just return an empty summary or participants. "},
+                        "Create a detailed summary of the meeting, including action items and participants. Never hallucinate your data. if the transcript is not long enough, just return an empty summary or participants. Never miss any factual information. If you detect a participant, always use the full name if possible. If there are multiple topics to cover, make sure to always include all the topics in the summary."},
                         {"role": "user", "content": prompt}],
-                response_format=MeetingSummary
+                response_format=MeetingSummary,
+                temperature=0.0
         )
 
         result: MeetingSummary = completion.choices[0].message
