@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+//import { useAuthStore } from '@/stores/auth'
 
 interface AudioFile {
   id: string
