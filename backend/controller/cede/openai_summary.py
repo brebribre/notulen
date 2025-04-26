@@ -21,11 +21,6 @@ class MeetingSummary(BaseModel):
         description="Names or email handles of meeting attendees"
     )
 
-SCHEMA = {
-    "name": "meeting_summary",
-    "schema": MeetingSummary.model_json_schema(),
-    "strict": True
-}
 
 # ---------- 2.2  Core utility ----------
 class TranscriptSummarizer:
@@ -53,56 +48,13 @@ class TranscriptSummarizer:
         return len(self.encoder.encode(text))
 
     # ---- chunk transcript if necessary ----
-    def _chunk(self, transcript: str, target_tokens: int = 3500) -> List[str]:
-        """Return a list of transcript chunks that each fit within target_tokens."""
-        words = transcript.split()
-        current, chunks = [], []
-        for w in words:
-            current.append(w)
-            if self._num_tokens(" ".join(current)) > target_tokens:
-                # backtrack until we’re under the limit
-                while self._num_tokens(" ".join(current)) > target_tokens:
-                    current.pop()
-                chunks.append(" ".join(current))
-                current = words[max(0, len(chunks) * target_tokens // 4):]  # overlap
-        if current:
-            chunks.append(" ".join(current))
+    def _chunk(self, transcript: str, target_tokens: int = 3500) -> list[str]:
+        """Fast O(n) tokenizer-first chunker with overlap."""
+        tokens = self.encoder.encode(transcript)                    # ① one token pass
+        step   = target_tokens - self.chunk_overlap_chars
+        slices = (tokens[i : i + target_tokens]                     # ② slice tokens
+                for i in range(0, len(tokens), step))
+        chunks = [self.encoder.decode(s) for s in slices]           # ③ decode back
+        print(f"Chunked {len(chunks)} segments")
         return chunks
 
-    # ---- single call that forces JSON output ----
-    def _call_structured(self, prompt: str) -> dict:
-        completion = self.client.beta.chat.completions.parse(
-            model=self.model,
-            messages=[{"role": "system",
-                    "content": "You are a world-class meetings assistant."
-                     "Create a concise summary of the meeting, including action items and participants."},
-                    {"role": "user", "content": prompt}],
-            response_format=MeetingSummary
-        )
-
-        result: MeetingSummary = completion.choices[0].message
-        if (result.refusal):
-            #print(result.refusal)
-            return result.refusal
-        else:
-            #print(result.parsed)
-            return result.parsed 
-
-    # ---- public API ---------------------------------------------------
-    def summarize(self, transcript: str) -> MeetingSummary:
-        try:
-            if self._num_tokens(transcript) < self.max_tokens - 500:
-                result = self._call_structured(transcript)
-            else:
-                partials = [self._call_structured(chunk) for chunk in self._chunk(transcript)]
-                combined = "\n\n".join(p.summary for p in partials)
-                result = self._call_structured(
-                    f"These are partial summaries:\n{combined}\n\n"
-                    "Merge them into one cohesive summary, "
-                    "deduplicating action_items and participants."
-                )
-            print(result)
-            return result
-        except (ValidationError, json.JSONDecodeError) as e:
-            logger.error("Parsing failed: %s", e)
-            raise
