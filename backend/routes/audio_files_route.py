@@ -25,6 +25,7 @@ class AudioFileCreate(AudioFileBase):
 class AudioFileUpdate(BaseModel):
     original_filename: Optional[str] = None
     meeting_datetime: Optional[datetime] = None
+    meeting_id: Optional[uuid.UUID] = None
 
 class AudioFile(AudioFileBase):
     id: uuid.UUID
@@ -51,6 +52,10 @@ async def create_audio_file(audio_file: AudioFileCreate):
             "size": audio_file.size,
             "meeting_datetime": audio_file.meeting_datetime.isoformat() if audio_file.meeting_datetime else None
         }
+        
+        # Add meeting_id if provided
+        if audio_file.meeting_id:
+            file_data["meeting_id"] = str(audio_file.meeting_id)
         
         result = supabase.insert("audio_files", file_data)
 
@@ -132,6 +137,8 @@ async def update_audio_file(file_id: uuid.UUID, audio_file: AudioFileUpdate):
             update_data["original_filename"] = audio_file.original_filename
         if audio_file.meeting_datetime is not None:
             update_data["meeting_datetime"] = audio_file.meeting_datetime.isoformat()
+        if audio_file.meeting_id is not None:
+            update_data["meeting_id"] = str(audio_file.meeting_id)
         
         if not update_data:
             # Nothing to update
@@ -286,5 +293,88 @@ async def get_download_url(file_id: uuid.UUID):
         return {"url": url_result["signedURL"]}
     except Exception as e:
         print(f"Error in get_download_url: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/meetings/{meeting_id}/audio-files", response_model=List[AudioFile])
+async def get_meeting_audio_files(meeting_id: uuid.UUID):
+    """
+    Get all audio files for a specific meeting.
+    """
+    try:
+        if not meeting_id:
+            raise HTTPException(status_code=400, detail="Meeting ID is required")
+        
+        # Get audio files for the meeting
+        result = supabase.select(
+            "audio_files", 
+            "*", 
+            filters={"meeting_id": str(meeting_id)},
+            order_by={"created_at": "desc"}
+        )
+        
+        return result
+    except Exception as e:
+        print(f"Error in get_meeting_audio_files: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/audio-files/{file_id}/assign-to-meeting", response_model=AudioFile)
+async def assign_audio_to_meeting(file_id: uuid.UUID, meeting_data: Dict[str, str]):
+    """
+    Assign an existing audio file to a meeting.
+    """
+    try:
+        meeting_id = meeting_data.get("meeting_id")
+        if not meeting_id:
+            raise HTTPException(status_code=400, detail="Meeting ID is required")
+            
+        # Get the file information
+        file_info = supabase.select(
+            "audio_files",
+            "*",
+            filters={"id": str(file_id)}
+        )
+        
+        if not file_info or not file_info[0]:
+            raise HTTPException(status_code=404, detail="Audio file not found")
+        
+        # Update the audio file record
+        result = supabase.update(
+            "audio_files",
+            {"meeting_id": meeting_id},
+            filters={"id": str(file_id)}
+        )
+        
+        if not result or not result[0]:
+            raise HTTPException(status_code=404, detail="Audio file not found after update")
+        
+        return result[0]
+    except Exception as e:
+        print(f"Error in assign_audio_to_meeting: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/audio-files/by-meeting", response_model=List[AudioFile])
+async def get_audio_files_by_meeting(meeting_id: uuid.UUID):
+    """
+    Get all audio files for a specific meeting using query parameters.
+    This is an alternative to the /meetings/{meeting_id}/audio-files endpoint.
+    """
+    try:
+        if not meeting_id:
+            raise HTTPException(status_code=400, detail="Meeting ID is required")
+        
+        # Get audio files for the meeting
+        result = supabase.select(
+            "audio_files", 
+            "*", 
+            filters={"meeting_id": str(meeting_id)},
+            order_by={"created_at": "desc"}
+        )
+        
+        return result
+    except Exception as e:
+        print(f"Error in get_audio_files_by_meeting: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=400, detail=str(e))

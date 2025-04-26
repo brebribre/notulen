@@ -23,9 +23,15 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2 } from 'lucide-vue-next'
+import { Loader2, MoreVertical, TrashIcon, MicIcon, EyeIcon } from 'lucide-vue-next'
 
 const router = useRouter()
 const props = defineProps<{
@@ -33,7 +39,7 @@ const props = defineProps<{
   currentGroup: any;
 }>()
 
-const { meetings, loading, error, fetchMeetings, createMeeting } = useMeetings()
+const { meetings, loading, error, fetchMeetings, createMeeting, deleteMeeting } = useMeetings()
 
 // Format date for display
 function formatDateTime(dateTimeStr: string) {
@@ -53,6 +59,11 @@ const meetingDate = ref(new Date().toISOString().split('T')[0])
 const meetingTime = ref(new Date().toTimeString().slice(0, 5))
 const isCreating = ref(false)
 const createError = ref('')
+
+// Delete meeting confirmation
+const deleteDialogOpen = ref(false)
+const meetingToDelete = ref<{ id: string; name: string } | null>(null)
+const isDeleting = ref(false)
 
 // Navigate to record page
 const navigateToRecord = () => {
@@ -100,6 +111,32 @@ const handleCreateMeeting = async () => {
     createError.value = err.message || 'Failed to create meeting'
   } finally {
     isCreating.value = false
+  }
+}
+
+// Open delete confirmation dialog
+const confirmDeleteMeeting = (meeting: { id: string; name: string }) => {
+  meetingToDelete.value = meeting
+  deleteDialogOpen.value = true
+}
+
+// Delete a meeting
+const handleDeleteMeeting = async () => {
+  if (!meetingToDelete.value) return
+  
+  isDeleting.value = true
+  
+  try {
+    await deleteMeeting(meetingToDelete.value.id)
+    deleteDialogOpen.value = false
+    meetingToDelete.value = null
+    
+    // Refresh the meetings list
+    await fetchMeetings(props.groupId)
+  } catch (err) {
+    console.error('Error deleting meeting:', err)
+  } finally {
+    isDeleting.value = false
   }
 }
 
@@ -183,6 +220,40 @@ const handleDialogChange = (open: boolean) => {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        
+        <!-- Delete Meeting Dialog -->
+        <Dialog :open="deleteDialogOpen" @update:open="deleteDialogOpen = $event">
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Meeting</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this meeting? This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div v-if="meetingToDelete" class="py-4">
+              <p class="font-medium">{{ meetingToDelete.name }}</p>
+            </div>
+            
+            <DialogFooter>
+              <Button
+                variant="outline" 
+                @click="deleteDialogOpen = false"
+                :disabled="isDeleting"
+              >
+                Cancel
+              </Button>
+              <Button 
+                variant="destructive"
+                @click="handleDeleteMeeting"
+                :disabled="isDeleting"
+              >
+                <Loader2 v-if="isDeleting" class="mr-2 h-4 w-4 animate-spin" />
+                <span>{{ isDeleting ? 'Deleting...' : 'Delete Meeting' }}</span>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <div class="space-y-2">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -218,7 +289,6 @@ const handleDialogChange = (open: boolean) => {
       <!-- Meetings Table with shadcn-vue components -->
       <div v-else class="border rounded-lg">
         <Table>
-          <TableCaption v-if="meetings.length === 0">No meetings available.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
@@ -249,9 +319,41 @@ const handleDialogChange = (open: boolean) => {
               <TableCell class="font-medium">{{ meeting.name }}</TableCell>
               <TableCell>{{ formatDateTime(meeting.meeting_datetime) }}</TableCell>
               <TableCell class="text-right">
-                <Button variant="ghost" size="sm" @click.stop="navigateToMeeting(meeting.id)">
-                  View
-                </Button>
+                <div class="flex items-center justify-end space-x-2">
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    @click.stop="navigateToMeeting(meeting.id)"
+                    title="View Meeting"
+                  >
+                    <EyeIcon class="h-4 w-4" />
+                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        @click.stop
+                      >
+                        <MoreVertical class="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem @click.stop="router.push(`/groups/${props.groupId}/record?meetingId=${meeting.id}`)">
+                        <MicIcon class="mr-2 h-4 w-4" />
+                        <span>Record</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        @click.stop="confirmDeleteMeeting({ id: meeting.id, name: meeting.name })"
+                        class="text-destructive"
+                      >
+                        <TrashIcon class="mr-2 h-4 w-4" />
+                        <span>Delete</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </TableCell>
             </TableRow>
           </TableBody>

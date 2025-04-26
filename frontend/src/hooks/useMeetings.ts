@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useAudioFiles } from '@/hooks/useAudioFiles'
 
 interface Meeting {
   id: string
@@ -26,10 +27,25 @@ interface MeetingUpdate {
   summary?: Record<string, any> | null
 }
 
+interface AudioFile {
+  id: string
+  group_id: string
+  bucket_name: string
+  path: string
+  original_filename: string | null
+  mimetype: string | null
+  size: number | null
+  meeting_datetime: string | null
+  meeting_id: string | null
+  created_at: string
+}
+
 export function useMeetings() {
   const authStore = useAuthStore()
+  const { fetchMeetingAudioFiles } = useAudioFiles()
   const meetings = ref<Meeting[]>([])
   const currentMeeting = ref<Meeting | null>(null)
+  const meetingAudioFiles = ref<AudioFile[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
 
@@ -222,15 +238,63 @@ export function useMeetings() {
     }
   }
 
+  // Get audio files for a specific meeting
+  const getMeetingAudioFiles = async (meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      // Use the fetchMeetingAudioFiles from useAudioFiles hook
+      const data = await fetchMeetingAudioFiles(meetingId)
+      meetingAudioFiles.value = data
+      return data
+    } catch (err: any) {
+      console.error('Error fetching meeting audio files:', err)
+      error.value = err.message || 'Failed to fetch meeting audio files'
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Get audio files for a meeting directly (alternative method)
+  const fetchAudioByMeetingId = async (meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const url = `${API_URL}/meetings/${meetingId}/audio-files`
+      
+      const response = await fetch(url)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.detail || `Request failed with status ${response.status}`)
+      }
+      
+      const data = await response.json()
+      meetingAudioFiles.value = data
+      return data
+    } catch (err: any) {
+      console.error('Error fetching audio files for meeting:', err)
+      error.value = err.message || 'Failed to fetch audio files for meeting'
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     meetings,
     currentMeeting,
+    meetingAudioFiles,
     loading,
     error,
     fetchMeetings,
     fetchMeeting,
     createMeeting,
     updateMeeting,
-    deleteMeeting
+    deleteMeeting,
+    getMeetingAudioFiles,
+    fetchAudioByMeetingId
   }
 }

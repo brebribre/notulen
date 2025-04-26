@@ -10,6 +10,7 @@ interface AudioFile {
   mimetype: string | null
   size: number | null
   meeting_datetime: string | null
+  meeting_id: string | null
   created_at: string
 }
 
@@ -106,7 +107,11 @@ export function useAudioFiles() {
   // Update an audio file
   const updateAudioFile = async (
     fileId: string, 
-    data: { original_filename?: string; meeting_datetime?: string }
+    data: { 
+      original_filename?: string; 
+      meeting_datetime?: string;
+      meeting_id?: string;
+    }
   ) => {
     loading.value = true
     error.value = null
@@ -242,6 +247,82 @@ export function useAudioFiles() {
     else return (bytes / 1048576).toFixed(1) + ' MB'
   }
 
+  // Assign an audio file to a meeting
+  const assignAudioToMeeting = async (fileId: string, meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const updatedFile = await apiRequest<AudioFile>(
+        `${API_URL}/audio-files/${fileId}/assign-to-meeting`, 
+        'POST', 
+        { meeting_id: meetingId }
+      )
+      
+      // Update local state if this is the current file
+      if (currentFile.value && currentFile.value.id === fileId) {
+        currentFile.value = updatedFile
+      }
+      
+      // Update the files list if needed
+      const index = audioFiles.value.findIndex(f => f.id === fileId)
+      if (index !== -1) {
+        audioFiles.value[index] = updatedFile
+        // Create a new array to trigger reactivity
+        audioFiles.value = [...audioFiles.value]
+      }
+      
+      return updatedFile
+    } catch (err: any) {
+      console.error('Error assigning audio file to meeting:', err)
+      error.value = err.message || 'Failed to assign audio file to meeting'
+      return null
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Get audio files for a meeting
+  const fetchMeetingAudioFiles = async (meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const url = `${API_URL}/meetings/${meetingId}/audio-files`
+      
+      const data = await apiRequest<AudioFile[]>(url, 'GET')
+      audioFiles.value = data
+      return data
+    } catch (err: any) {
+      console.error('Error fetching meeting audio files:', err)
+      error.value = err.message || 'Failed to fetch meeting audio files'
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Get audio files for a meeting using query parameters (alternate method)
+  const fetchAudioFilesByMeeting = async (meetingId: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const url = `${API_URL}/audio-files/by-meeting`
+      const params = { meeting_id: meetingId }
+      
+      const data = await apiRequest<AudioFile[]>(url, 'GET', undefined, params)
+      audioFiles.value = data
+      return data
+    } catch (err: any) {
+      console.error('Error fetching audio files by meeting:', err)
+      error.value = err.message || 'Failed to fetch audio files by meeting'
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     audioFiles,
     currentFile,
@@ -254,6 +335,9 @@ export function useAudioFiles() {
     deleteAudioFile,
     uploadAudioFile,
     getAudioFileUrl,
-    formatFileSize
+    formatFileSize,
+    assignAudioToMeeting,
+    fetchMeetingAudioFiles,
+    fetchAudioFilesByMeeting
   }
 } 
