@@ -1,5 +1,4 @@
 import io
-import soundfile as sf
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
