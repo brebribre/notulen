@@ -258,6 +258,10 @@ async def upload_audio_file(
                 pass
             raise HTTPException(status_code=500, detail="Failed to create audio file record")
         
+        # TODO: we now have the file content, we can process it into transcript and summary
+        # TODO: process the audio file into transcript and summary
+        # TODO: update the meetings table's transcript and summary columns
+
         return result[0]
     except Exception as e:
         print(f"Error in upload_audio_file: {str(e)}")
