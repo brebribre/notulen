@@ -52,6 +52,8 @@ async def create_audio_file(audio_file: AudioFileCreate):
         }
         
         result = supabase.insert("audio_files", file_data)
+
+        # TODO: process file
         
         if not result or not result[0]:
             raise HTTPException(status_code=500, detail="Failed to create audio file record")

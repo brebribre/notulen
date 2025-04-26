@@ -8,6 +8,7 @@ import AppView from '@/views/AppView.vue'
 import HomeView from '@/views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import GroupMainContainer from '@/containers/GroupMainContainer.vue'
+import RecordContainer from '@/containers/RecordContainer.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -47,6 +48,12 @@ const router = createRouter({
             component: GroupMainContainer,
             meta: { requiresAuth: true }
           },
+          {
+            path: '/groups/:groupId/record',
+            name: 'group-record',
+            component: RecordContainer,
+            meta: { requiresAuth: true }
+          }
       ]
     },
     {
