@@ -5,9 +5,13 @@ import uuid
 from datetime import datetime
 import traceback
 from controller.supabase.supabase_utils import SupabaseController
+from controller.marcel.speech_to_text import SpeechToText
+from controller.cede.openai_summary_async import AsyncTranscriptSummarizer
 
 router = APIRouter()
 supabase = SupabaseController()
+speech_to_text = SpeechToText()
+transcript_summarizer = AsyncTranscriptSummarizer()
 
 # Pydantic models for request/response
 class AudioFileBase(BaseModel):
@@ -259,8 +263,38 @@ async def upload_audio_file(
             raise HTTPException(status_code=500, detail="Failed to create audio file record")
         
         # TODO: we now have the file content, we can process it into transcript and summary
-        # TODO: process the audio file into transcript and summary
-        # TODO: update the meetings table's transcript and summary columns
+        transcript = speech_to_text.speech_to_text_from_bytes(file_content)
+        print(f"Transcript: {transcript}")
+        
+        # Process the audio file into transcript and summary
+        summary = await transcript_summarizer.summarize_async(transcript)
+        print(f"Summary: {summary}")
+        
+        # Update the meetings table's transcript and summary columns if meeting_id is provided
+        if meeting_id:
+            # Convert summary to appropriate format for storage
+            summary_json = {
+                "summary": summary.summary,
+                "action_items": summary.action_items,
+                "participants": summary.participants
+            }
+            
+            # Update the meeting record in Supabase
+            meeting_update = {
+                "transcript": transcript,
+                "summary": summary_json
+            }
+            
+            meeting_result = supabase.update(
+                "meetings",
+                meeting_update,
+                filters={"id": meeting_id}
+            )
+            
+            if not meeting_result:
+                print(f"Warning: Could not update meeting {meeting_id} with transcript and summary.")
+            else:
+                print(f"Successfully updated meeting {meeting_id} with transcript and summary.")
 
         return result[0]
     except Exception as e:
